@@ -7,8 +7,8 @@ He/she downloads the paper, prepares a review and writes notes into a single lar
 Editorial board, as well as authors want to know, which articles are already reviewed and which are under review.
 
   ___
-  
-  ## Basic functionality of the System
+
+## Basic functionality of the System
 
   * Store articles in the database
   * Enable to add new article to database
@@ -22,10 +22,9 @@ Editorial board, as well as authors want to know, which articles are already rev
 * Editors
 * Authors
 * Experts
+* Admin
 
-
-
-  ## Implementation ideas
+## Implementation ideas
   * Maven
   * Spring, SpringBoot
   * Hibernate database
