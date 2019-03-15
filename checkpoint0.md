@@ -32,3 +32,4 @@ Editorial board, as well as authors want to know, which articles are already rev
   * Spring Security - authentication, authorization
   * Observer design pattern
   * REST
+  * Spring email (MailChimp API)
