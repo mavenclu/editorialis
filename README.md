@@ -1,1 +1,3 @@
-Checkpoints for the semestrial project
+#### Checkpoints for the semestrial project  
+
+checkpoint1 not ready for evaluation yet.
