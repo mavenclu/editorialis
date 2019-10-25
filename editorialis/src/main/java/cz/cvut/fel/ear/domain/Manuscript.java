@@ -41,7 +41,7 @@ public class Manuscript extends BaseDocumentEntity {
     private ManuscriptStatus manuscriptStatus;
 
     @Column
-    private boolean isClosed;
+    private boolean closed;
 
     protected Manuscript() {
         super();
@@ -55,7 +55,7 @@ public class Manuscript extends BaseDocumentEntity {
         private List<Review> reviews;
         private Category category;
         private ManuscriptStatus manuscriptStatus;
-        private boolean isClosed;
+        private boolean closed;
 
         public ManuscriptBuilder(){}
 
@@ -95,7 +95,7 @@ public class Manuscript extends BaseDocumentEntity {
         }
 
         public ManuscriptBuilder isClosed(boolean bool){
-            this.isClosed = bool;
+            this.closed = bool;
             return this;
         }
 
@@ -108,7 +108,7 @@ public class Manuscript extends BaseDocumentEntity {
             man.setReviews(reviews);
             man.setCategory(category);
             man.setManuscriptStatus(manuscriptStatus);
-            man.setClosed(isClosed);
+            man.setClosed(closed);
             return man;
         }
     }

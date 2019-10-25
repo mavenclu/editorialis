@@ -2,11 +2,13 @@ package cz.cvut.fel.ear.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -23,6 +25,8 @@ public class Review extends BaseDocumentEntity {
     private Reviewer reviewer;
 
     private ReviewSuggestion reviewSuggestion;
+    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss")
+    private LocalDateTime dateTimeAssigned;
 
     protected Review() {
         super();

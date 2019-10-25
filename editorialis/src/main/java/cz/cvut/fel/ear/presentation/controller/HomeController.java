@@ -19,14 +19,18 @@ import java.util.List;
 @Controller
 public class HomeController {
 
+    private final CategoryRepository categoryRepository;
+    private final ManuscriptRepository manuscriptRepository;
+    private final AuthorRepository authorRepository;
+    private final ReviewRepository reviewRepository;
+
     @Autowired
-    private CategoryRepository categoryRepository;
-    @Autowired
-    private ManuscriptRepository manuscriptRepository;
-    @Autowired
-    private AuthorRepository authorRepository;
-    @Autowired
-    private ReviewRepository reviewRepository;
+    public HomeController(CategoryRepository categoryRepository, ManuscriptRepository manuscriptRepository, AuthorRepository authorRepository, ReviewRepository reviewRepository) {
+        this.categoryRepository = categoryRepository;
+        this.manuscriptRepository = manuscriptRepository;
+        this.authorRepository = authorRepository;
+        this.reviewRepository = reviewRepository;
+    }
 
     @RequestMapping("/")
     public String home(Model model) {

@@ -17,8 +17,7 @@ public abstract class BaseDocumentEntity {
     @NotNull
     @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss")
     private LocalDateTime dateTimeUploaded;
-    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss")
-    private LocalDateTime dateTimeAssigned;
+
 
     @Lob
     private MultipartFile file;
@@ -47,13 +46,7 @@ public abstract class BaseDocumentEntity {
         this.file = file;
     }
 
-    public LocalDateTime getDateTimeAssigned() {
-        return dateTimeAssigned;
-    }
 
-    public void setDateTimeAssigned(LocalDateTime dateTimeAssigned) {
-        this.dateTimeAssigned = dateTimeAssigned;
-    }
 
 
 }
