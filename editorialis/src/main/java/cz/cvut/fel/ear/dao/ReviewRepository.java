@@ -5,6 +5,7 @@ import cz.cvut.fel.ear.domain.ReviewSuggestion;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ReviewRepository extends PagingAndSortingRepository<Review, Long> {
@@ -15,6 +16,8 @@ public interface ReviewRepository extends PagingAndSortingRepository<Review, Lon
     List<Review> findReviewsByReviewer_Name(String lastName);
     List<Review> findReviewsByReviewer_UserId(long reviewerId);
     List<Review> findReviewsByReviewSuggestion(ReviewSuggestion suggestion);
+    List<Review> findByDateTimeAssigned(LocalDateTime localDateTime);
+    List<Review> findByDateTimeAssignedBeforeAndDateTimeUploaded(LocalDateTime assigned, LocalDateTime uploaded);
 
 
 }

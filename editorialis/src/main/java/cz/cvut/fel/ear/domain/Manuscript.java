@@ -37,7 +37,7 @@ public class Manuscript extends BaseDocumentEntity {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @Column
+    @Enumerated(EnumType.STRING)
     private ManuscriptStatus manuscriptStatus;
 
     @Column

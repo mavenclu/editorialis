@@ -17,10 +17,6 @@ public class Author extends BaseUserEntity {
     @OneToMany(mappedBy = "sender")
     private List<Manuscript> submittedManuscripts;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
-
     @ManyToMany(mappedBy = "authors")
     private List<Manuscript> authoredManuscripts;
 
@@ -30,7 +26,6 @@ public class Author extends BaseUserEntity {
 
     public static class AuthorBuilder{
         private List<Manuscript> submittedManuscripts;
-        private Category category;
         private List<Manuscript> authoredManuscripts;
         private String email;
         private String phoneNumber;
@@ -46,10 +41,6 @@ public class Author extends BaseUserEntity {
             return this;
         }
 
-        public AuthorBuilder withCategory(Category category){
-            this.category = category;
-            return this;
-        }
 
         public AuthorBuilder withAuthoredManuscripts(List<Manuscript> authored){
             this.authoredManuscripts = authored;
@@ -79,7 +70,6 @@ public class Author extends BaseUserEntity {
         public Author build(){
             Author author = new Author();
             author.setSubmittedManuscripts(submittedManuscripts);
-            author.setCategory(category);
             author.setAuthoredManuscripts(authoredManuscripts);
             author.setEmail(email);
             author.setPhoneNumber(phoneNumber);

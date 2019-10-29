@@ -5,6 +5,7 @@ public enum ManuscriptStatus {
     PENDING,
     IN_REVISION_BY_REVIEWER,
     IN_REVISION_BY_AUTHOR,
+    IN_REVISION_BY_EDITOR,
     ACCEPTED,
     REJECTED
 }

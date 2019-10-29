@@ -20,10 +20,6 @@ public class Category {
     @Size(min = 2, max = 30)
     private String name;
 
-
-    @OneToMany(mappedBy = "category")
-    private List<Author> authors;
-
     @OneToMany(mappedBy = "category")
     private List<Editor> editors;
 
@@ -36,7 +32,6 @@ public class Category {
     public static class CategoryBuilder{
         private Long categoryId;
         private String name;
-        private List<Author> authors;
         private List<Editor> editors;
         private List<Reviewer> reviewers;
         private List<Manuscript> manuscripts;
@@ -55,10 +50,7 @@ public class Category {
             this.name = name;
             return this;
         }
-        public CategoryBuilder withAuthors(List<Author> authors){
-            this.authors = authors;
-            return this;
-        }
+
         public CategoryBuilder withEditors(List<Editor> editors){
             this.editors = editors;
             return this;
@@ -75,7 +67,6 @@ public class Category {
             Category cat = new Category();
             cat.setCategoryId(categoryId);
             cat.setName(name);
-            cat.setAuthors(authors);
             cat.setEditors(editors);
             cat.setReviewers(reviewers);
             cat.setManuscripts(manuscripts);

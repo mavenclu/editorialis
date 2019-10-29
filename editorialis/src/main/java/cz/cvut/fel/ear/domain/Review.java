@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
@@ -23,7 +20,7 @@ public class Review extends BaseDocumentEntity {
     @ManyToOne
     @JoinColumn(name = "reviewer_id")
     private Reviewer reviewer;
-
+    @Enumerated(EnumType.STRING)
     private ReviewSuggestion reviewSuggestion;
     @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss")
     private LocalDateTime dateTimeAssigned;
