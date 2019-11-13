@@ -31,7 +31,7 @@
                             <div class="card-body-icon">
                                 <i class="fas fa-fw fa-file-alt"></i>
                             </div>
-                            <div class="mr-5"><p th:text="${manuscriptNumber}">26</p> New Manuscripts</div>
+                            <div class="mr-5"><p th:text="${nmbNew}">26</p> New Manuscripts</div>
                         </div>
                         <a class="card-footer text-white clearfix small z-1" th:href="@{/manuscripts}">
                             <span class="float-left">View Details</span>
@@ -50,7 +50,7 @@
                             <div class="card-body-icon">
                                 <i class="fas fa-fw fa-clipboard-check"></i>
                             </div>
-                            <div class="mr-5">4 Complete Reviews</div>
+                            <div class="mr-5"><p th:text="${nmbRev}"></p> Complete Reviews</div>
                         </div>
                         <a class="card-footer text-white clearfix small z-1" th:href="@{#completed-reviews-table}">
                             <span class="float-left">View Details</span>
@@ -67,7 +67,7 @@
                             <div class="card-body-icon">
                                 <i class="fas fa-user-edit"></i>
                             </div>
-                            <div class="mr-5">11 Manuscripts Under Review</div>
+                            <div class="mr-5"> <p th:text="${nmbRev}"></p> Manuscripts Under Review</div>
                         </div>
                         <a class="card-footer text-white clearfix small z-1" th:href="@{/reviews}">
                             <span class="float-left">View Details</span>
@@ -84,7 +84,7 @@
                             <div class="card-body-icon">
                                 <i class="fas fa-exclamation-triangle"></i>
                             </div>
-                            <div class="mr-5">3 Reviews After Deadline</div>
+                            <div class="mr-5"><p th:text="${nmbDel}"></p> Reviews After Deadline</div>
                         </div>
                         <a class="card-footer text-white clearfix small z-1" href="#">
                             <span class="float-left">View Details</span>
@@ -103,7 +103,7 @@
             <div name="completed-reviews-table" class="card mb-3">
                 <div class="card-header">
                     <i class="fas fa-table"></i>
-                    manuscripts with Complete Reviews</div>
+                    Manuscripts with Completed Reviews</div>
                 <div class="card-body">
                     <div class="table-responsive table-striped">
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">

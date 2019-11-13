@@ -21,7 +21,7 @@
     } else {
         // Browser globals (root is window)
         root.PDFObject = factory();
-  }
+    }
 }(this, function () {
 
     "use strict";
@@ -97,7 +97,7 @@
         //Therefore if iOS, we shall assume that PDF support is not available
         !isIOS && (
             //Modern versions of Firefox come bundled with PDFJS
-            isFirefoxWithPDFJS || 
+            isFirefoxWithPDFJS ||
             //Browsers that still support the original MIME type check
             supportsPdfMimeType || (
                 //Pity the poor souls still using IE
@@ -251,12 +251,12 @@
 
             return generatePDFJSiframe(targetNode, url, pdfOpenFragment, PDFJS_URL, id);
 
-        //If traditional support is provided, or if this is a modern browser and not iOS (see comment for supportsPDFs declaration)
+            //If traditional support is provided, or if this is a modern browser and not iOS (see comment for supportsPDFs declaration)
         } else if(supportsPDFs || (assumptionMode && isModernBrowser && !isIOS)){
 
             return generateEmbedElement(targetNode, targetSelector, url, pdfOpenFragment, width, height, id);
 
-        //If everything else has failed and a PDFJS fallback is provided, try to use it
+            //If everything else has failed and a PDFJS fallback is provided, try to use it
         } else if(PDFJS_URL){
 
             return generatePDFJSiframe(targetNode, url, pdfOpenFragment, PDFJS_URL, id);
