@@ -1,6 +1,9 @@
 package cz.cvut.fel.ear.semestralka.dao;
 
 import cz.cvut.fel.ear.semestralka.domain.Author;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,6 +12,9 @@ import java.util.Set;
 
 @Repository
 public interface AuthorRepository extends PagingAndSortingRepository<Author, Long> {
+
+    Iterable<Author> findAll(Sort sort);
+    Page<Author> findAll(Pageable pageable);
 
     List<Author> findAll();
     List<Author> findByLastName(String lastName);

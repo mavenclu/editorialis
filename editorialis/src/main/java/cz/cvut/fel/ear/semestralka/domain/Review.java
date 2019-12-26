@@ -13,11 +13,11 @@ import java.time.LocalDateTime;
 @Table(name = "reviews")
 public class Review extends BaseDocumentEntity {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manuscript_id")
     private Manuscript manuscript;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reviewer_id")
     private Reviewer reviewer;
     @Enumerated(EnumType.STRING)

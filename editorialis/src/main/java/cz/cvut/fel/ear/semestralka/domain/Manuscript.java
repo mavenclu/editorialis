@@ -16,25 +16,25 @@ public class Manuscript extends BaseDocumentEntity {
     @Column
     private String title;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
     private Author sender;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(
             name = "manuscript_authors",
             joinColumns = @JoinColumn(name = "manuscript_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id"))
     private Set<Author> authors;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "editor_id")
     private Editor editor;
 
     @OneToMany(mappedBy = "manuscript")
     private List<Review> reviews;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 

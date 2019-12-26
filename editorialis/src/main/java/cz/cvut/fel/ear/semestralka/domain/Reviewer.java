@@ -17,7 +17,7 @@ public class Reviewer extends BaseUserEntity {
     @OneToMany(mappedBy = "reviewer")
     private List<Review> reviews;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 

@@ -30,6 +30,7 @@
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-thymeleaf:2.1.7.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-web:2.1.7.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-devtools:2.1.7.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-mail:2.1.7.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-test:2.1.7.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-aop:2.1.7.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-jdbc:2.1.7.RELEASE" level="project" />
@@ -38,6 +39,7 @@
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-logging:2.1.7.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.logging.log4j:log4j-to-slf4j:2.11.2" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.logging.log4j:log4j-api:2.12.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.postgresql:postgresql:42.1.1" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-test-autoconfigure:2.1.7.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-test:2.1.7.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.dbunit:dbunit:2.6.0" level="project" />
@@ -60,6 +62,8 @@
     <orderEntry type="library" name="Gradle: org.springframework:spring-web:5.1.9.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-autoconfigure:2.1.7.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot:2.1.7.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-context-support:5.1.9.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: com.sun.mail:javax.mail:1.6.2" level="project" />
     <orderEntry type="library" name="Gradle: com.jayway.jsonpath:json-path:2.4.0" level="project" />
     <orderEntry type="library" name="Gradle: org.assertj:assertj-core:3.11.1" level="project" />
     <orderEntry type="library" name="Gradle: org.mockito:mockito-core:2.23.4" level="project" />
@@ -113,6 +117,7 @@
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.yaml:snakeyaml:1.23" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.tomcat.embed:tomcat-embed-el:9.0.22" level="project" />
     <orderEntry type="library" name="Gradle: javax.validation:validation-api:2.0.1.Final" level="project" />
+    <orderEntry type="library" name="Gradle: javax.activation:activation:1.1" level="project" />
     <orderEntry type="library" name="Gradle: net.minidev:json-smart:2.3" level="project" />
     <orderEntry type="library" name="Gradle: net.bytebuddy:byte-buddy-agent:1.9.3" level="project" />
     <orderEntry type="library" name="Gradle: org.objenesis:objenesis:2.6" level="project" />

@@ -15,7 +15,7 @@ public class Editor extends BaseUserEntity {
     @OneToMany(mappedBy = "editor")
     private List<Manuscript> managedManuscripts;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 
