@@ -1,11 +1,13 @@
 package cz.cvut.fel.ear.semestralka.domain;
 
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @MappedSuperclass
 public abstract class BaseDocumentEntity {
@@ -13,6 +15,11 @@ public abstract class BaseDocumentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private final Long documentId;
+
+    @Version
+    private Long version;
+    @LastModifiedDate
+    Date lastModifiedDate;
 
     @NotNull
     @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss")

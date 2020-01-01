@@ -15,6 +15,9 @@ public abstract class BaseUserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private final Long userId;
 
+    @Version
+    private Long version;
+
     @NonNull
     @Email
     @Column(unique = true)
