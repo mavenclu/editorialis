@@ -16,11 +16,12 @@ import javax.validation.Valid;
 @Controller
 public class EmailController {
     private final EmailServiceImpl emailService;
-
     @Autowired
     public EmailController(EmailServiceImpl emailService) {
         this.emailService = emailService;
     }
+
+
 
     @RequestMapping(value = "/mail/send", method = RequestMethod.GET)
     public String sendEmail(){

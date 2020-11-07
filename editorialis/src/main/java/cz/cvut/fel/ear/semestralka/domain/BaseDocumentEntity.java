@@ -1,5 +1,8 @@
 package cz.cvut.fel.ear.semestralka.domain;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
@@ -8,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Date;
+
 
 @MappedSuperclass
 public abstract class BaseDocumentEntity {
@@ -23,7 +27,7 @@ public abstract class BaseDocumentEntity {
 
     @NotNull
     @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss")
-    private LocalDateTime dateTimeUploaded;
+    private final LocalDateTime dateTimeUploaded;
 
 
     @Lob
@@ -35,6 +39,7 @@ public abstract class BaseDocumentEntity {
 
     BaseDocumentEntity() {
         this.documentId = null;
+        this.dateTimeUploaded = LocalDateTime.now();
     }
 
     public Long getDocumentId() {
@@ -45,9 +50,6 @@ public abstract class BaseDocumentEntity {
         return dateTimeUploaded;
     }
 
-    public void setDateTimeUploaded(LocalDateTime dateTimeUploaded) {
-        this.dateTimeUploaded = dateTimeUploaded;
-    }
 
     public MultipartFile getFile() {
         return file;
@@ -72,4 +74,5 @@ public abstract class BaseDocumentEntity {
     public void setUrl(String url) {
         this.url = url;
     }
+
 }

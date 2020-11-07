@@ -1,5 +1,7 @@
 package cz.cvut.fel.ear.semestralka.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,8 +9,8 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
 
-@Getter
-@Setter
+@Getter(AccessLevel.PUBLIC)
+@Setter(AccessLevel.PUBLIC)
 @Entity
 @Table(name = "manuscripts")
 public class Manuscript extends BaseDocumentEntity {
@@ -119,5 +121,7 @@ public class Manuscript extends BaseDocumentEntity {
             man.setUrl(url);
             return man;
         }
+
+
     }
 }

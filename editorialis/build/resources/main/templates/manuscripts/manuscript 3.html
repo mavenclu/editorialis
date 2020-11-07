@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head th:replace="layout1 :: head(${heading})"></head>
+
+<body id="page-top">
+
+<div th:replace="layout1 :: nav"></div>
+<div th:replace="layout1 :: flash"></div>
+
+<div id="wrapper">
+
+    <!-- Sidebar -->
+  <div th:replace="layout1 :: sidebar"></div>
+
+
+  <div id="content-wrapper">
+
+      <div class="container-fluid">
+
+        <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a th:href="@{/editor}">Dashboard</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a th:href="@{/manuscripts/}">Manuscript</a>
+          </li>
+          <li class="breadcrumb-item active" th:text="${manuscript.title}">Manuscript</li>
+        </ol>
+
+
+
+        <!-- Page Content -->
+        <div class="container">
+
+          <div class="row">
+
+            <!-- Post Content Column -->
+            <div class="col-lg-8">
+
+              <!-- Title -->
+              <h1 class="mt-4" th:text="${manuscript.title}">Post Title</h1>
+
+              <!-- Author -->
+              <p class="lead" >
+                by
+                <a href="#" th:text="${manuscript.sender.name} + ' '">Author</a>
+              </p>
+
+              <hr>
+
+              <!-- Date/Time -->
+              <p th:text="'Posted on ' +  ${manuscript.dateTimeUploaded}">Posted on January 1, 2019 at 12:00 PM</p>
+
+              <hr>
+              <p class="badge badge-info" th:text="${manuscript.category.name}">Category</p>
+
+              <hr>
+              <iframe src="https://docs.google.com/document/d/e/2PACX-1vS7Fz6kNCPuuGllH2PKsRjXeAd3rhuuxHtaDAS7OYdGQ5XcWSyfMY5HwNS3ye1-VlxyNolGGr5OH-3D/pub?embedded=true"
+                      style="width: 90%; height: 1000px"
+              ></iframe>
+
+<!--              <div id="pdfContainer"></div>-->
+              <hr>
+            </div>
+
+            <!-- Sidebar Widgets Column -->
+            <div class="col-md-4">
+
+
+              <!-- Toolbar Widget -->
+              <div class="card my-4">
+                <h5 class="card-header"> Toolbar</h5>
+                <div class="card-body">
+
+                    <div class="btn-group dropleft">
+                      <button type="button" class="btn btn-danger  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Reject
+                      </button>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Mismatch with the journal</a>
+                        <a class="dropdown-item" href="#">Lack of originality or significance</a>
+                        <a class="dropdown-item" href="#">Poor writing and organization</a>
+                      </div>
+                    </div>
+
+                  <div class=" mt-2 input-group">
+                    <select class="custom-select border-warning" id="inputGroupSelect04" aria-label="Example select with button addon">
+                      <option selected>Choose category...</option>
+                      <option value="1">Life sciences</option>
+                      <option value="2">Medical sciences</option>
+                      <option value="3">Physical sciences</option>
+                      <option value="3">Social sciences</option>
+                    </select>
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-warning" type="button">Move</button>
+                    </div>
+                  </div>
+
+                      <div class="mt-2 input-group">
+                        <select class="custom-select border-info" id="inputGroupSelect01" aria-label="Example select with button addon">
+                          <option selected>Choose editor...</option>
+                          <option value="1">Ján Novák</option>
+                          <option value="1">Adéla Novotná</option>
+                          <option value="2">Tomáš Soukup</option>
+                          <option value="3">David Miler</option>
+                          <option value="3">Aneta Dvořáková</option>
+                        </select>
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-info" type="button">Send</button>
+                        </div>
+                      </div>
+
+                </div>
+              </div>
+
+              <div class="card my-4">
+                <h5 class="card-header card-title alert alert-info">Assign reviews</h5>
+                <div class="card-body">
+
+                  <div class="input-group">
+                    <select class="custom-select border-info" id="inputGroupSelect05" aria-label="Example select with button addon">
+                      <option selected th:text="${category}"></option>
+                      <option th:each="ct : ${categories}" th:text="${ct}" value="1">category</option>
+                    </select>
+                    <div class="input-group-append">
+                      <a href="#generatedEditorsTable" class="btn btn-outline-info" type="button" data-toggle="collapse">Generate</a>
+                    </div>
+                  </div>
+
+                  <!-- Modal -->
+                  <div class="modal fade" id="editorsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="table-responsive-sm collapse mt-2">
+                            <h6 class="card-subtitle mb-2 text-muted">Editors without review assigned</h6>
+                            <table class="table table-bordered">
+                              <thead>
+                              <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Categories</th>
+                                <th>Reviews Done</th>
+                                <th>Action</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <tr>
+                                <td>1</td>
+                                <td>Jeroným Herzán</td>
+                                <td>Medical sciences, robots, health</td>
+                                <td>24</td>
+                                <td class="text-center"><label><input type="checkbox"></label></td>
+                              </tr>
+                              <tr>
+                                <td>2</td>
+                                <td>Vladan Schindler</td>
+                                <td>Physical sciences, robotics, space</td>
+                                <td>14</td>
+                                <td class="text-center"><label><input type="checkbox"></label></td>
+                              </tr>
+                              <tr>
+                                <td>3</td>
+                                <td>Roland Synek</td>
+                                <td>Life sciences, bioinformatics</td>
+                                <td>14</td>
+                                <td class="text-center"><label><input type="checkbox"></label></td>
+                              </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                <div id="generatedEditorsTable" class="table-responsive-sm collapse mt-2">
+                  <h6 class="card-subtitle mb-2 text-muted">Editors without review assigned</h6>
+                  <table class="table table-bordered" id="dataTable">
+                    <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="rev : ${reviewers}">
+                      <td th:text="${rev.name}">System Architect</td>
+                      <td class="text-center"><label>
+                        <input type="checkbox">
+                      </label></td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
+                </div>
+                <div class="card-footer text-center">
+                  <button class="btn btn-outline-info ">Request reviews</button>
+                </div>
+              </div>
+
+
+
+            </div>
+
+          </div>
+          <!-- /.row -->
+
+        </div>
+        <!-- /.container -->
+
+
+
+
+
+      </div>
+      <!-- /.container-fluid -->
+
+      <!-- Sticky Footer -->
+    <div th:replace="layout1 :: footer"></div>
+
+
+  </div>
+    <!-- /.content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Scroll to Top Button-->
+<div th:replace="layout1 :: scroll"></div>
+
+
+<div th:replace="layout1 :: modal"></div>
+<div th:replace="layout1 :: scripts"></div>
+
+<script th:src="@{/js/pdfobject.js}"></script>
+<script>PDFObject.embed("demoManuscript.pdf", "#pdfContainer");</script>
+
+</body>
+
+</html>

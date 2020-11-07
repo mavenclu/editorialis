@@ -2,6 +2,7 @@ package cz.cvut.fel.ear.semestralka.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -22,8 +23,8 @@ public class Category {
     @Size(min = 2, max = 30)
     private String name;
 
-    @OneToMany(mappedBy = "category")
-    private List<Editor> editors;
+    @OneToOne(mappedBy = "category")
+    private Editor editor;
 
     @OneToMany(mappedBy = "category")
     private List<Manuscript> manuscripts;
@@ -34,7 +35,7 @@ public class Category {
     public static class CategoryBuilder{
         private Long categoryId;
         private String name;
-        private List<Editor> editors;
+        private Editor editor;
         private List<Reviewer> reviewers;
         private List<Manuscript> manuscripts;
 
@@ -53,8 +54,8 @@ public class Category {
             return this;
         }
 
-        public CategoryBuilder withEditors(List<Editor> editors){
-            this.editors = editors;
+        public CategoryBuilder withEditor(Editor editor){
+            this.editor = editor;
             return this;
         }
         public CategoryBuilder withReviewers(List<Reviewer> reviewers){
@@ -69,7 +70,7 @@ public class Category {
             Category cat = new Category();
             cat.setCategoryId(categoryId);
             cat.setName(name);
-            cat.setEditors(editors);
+            cat.setEditor(editor);
             cat.setReviewers(reviewers);
             cat.setManuscripts(manuscripts);
             return cat;

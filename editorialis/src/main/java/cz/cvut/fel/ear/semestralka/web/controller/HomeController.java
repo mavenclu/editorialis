@@ -64,7 +64,7 @@ public class HomeController {
                 .build());
         authors.add(
                 new Author.AuthorBuilder().withFirstName("Jana")
-                .withLastName("Novakoava")
+                .withLastName("Novakova")
                 .withEmail("janovakova@example.com").build()
         );
 

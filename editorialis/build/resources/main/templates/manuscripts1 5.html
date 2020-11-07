@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="layout1 :: head(${heading})"></head>
+
+<body id="page-top">
+<div th:replace="layout1 :: nav"></div>
+<div th:replace="layout1 :: flash"></div>
+
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <div th:replace="layout1 :: sidebar"></div>
+
+    <div id="content-wrapper">
+
+        <div class="container-fluid">
+
+            <!-- Breadcrumbs-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a th:href="@{/editor}">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active" th:text="${heading}"></li>
+            </ol>
+
+
+
+
+            <!-- DataTables Example -->
+            <div name="completed-reviews-table" class="card mb-3">
+                <div class="card-header" th:text="${heading}">
+                    <!--                <i class="fas fa-table" ></i>-->
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive table-striped">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th th:text="${firstCol}">Title</th>
+                                <th>Author</th>
+                                <th th:text="${thirdCol}">Categories</th>
+                                <th>Date uploaded</th>
+                                <!--<th>Review 2</th>-->
+                                <th th:text="${lastCol}">Details</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:if="${#httpServletRequest.servletPath.equals('/manuscripts')}" th:each="manuscript, iStat : ${manuscripts}">
+                                <td th:text="${iStat.count}">3</td>
+                                <td th:text="${manuscript.title}">Title</td>
+                                <td><p th:text="${manuscript?.sender?.firstName} + ' ' + ${manuscript?.sender?.lastName}">Author</p></td>
+                                <td>
+                                    <p class="badge badge-info" th:text="${manuscript?.category?.name}"></p>
+                                </td>
+                                <td ><p th:text="${manuscript?.dateTimeUploaded}">30.08.2019</p></td>
+                                <td class="text-center"><a th:href="@{|/manuscripts/${manuscript.documentId}|}"><i class="fas fa-external-link-alt"></i> </a></td>
+                            </tr>
+                            <tr th:if="${#httpServletRequest.servletPath.equals('/reviews')}" th:each="review, iStat : ${reviews}">
+                                <td th:text="${iStat.count}">3</td>
+                                <td th:text="${review.manuscriptTitle}">Title</td>
+                                <td><p th:text="${manuscript?.author?.firstName} + ' ' + ${manuscript?.author?.lastName}">Author</p></td>
+                                <td th:text="${review.status}"></td>
+                                <td ><p th:text="${review.dateUploaded}">30.08.2019</p></td>
+                                <td class="text-center"><a th:href="@{|/reviews/${review.id}|}"><i class="fas fa-external-link-alt"></i> </a></td>
+                            </tr>
+                            <tr th:if="${#httpServletRequest.servletPath.equals('/reviews')}" th:each="review, iStat : ${reviews}">
+                                <td th:text="${iStat.count}">3</td>
+                                <td th:text="${review.manuscriptTitle}">Title</td>
+                                <td><p th:text="${manuscript?.author?.firstName} + ' ' + ${manuscript?.author?.lastName}">Author</p></td>
+                                <td th:text="${review.status}"></td>
+                                <td ><p th:text="${review.dateUploaded}">30.08.2019</p></td>
+                                <td class="text-center"><a th:href="@{|/reviews/${review.id}|}"><i class="fas fa-external-link-alt"></i> </a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+            </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+        <!-- Sticky Footer -->
+        <div th:replace="layout1 :: footer"></div>
+
+    </div>
+    <!-- /.content-wrapper -->
+
+</div>
+
+<div th:replace="layout1 :: scroll"></div>
+<div th:replace="layout1 :: modal"></div>
+<div th:replace="layout1 :: scripts"></div>
+
+</body>
+</html>
