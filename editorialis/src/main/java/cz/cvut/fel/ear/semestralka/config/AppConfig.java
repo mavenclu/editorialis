@@ -14,4 +14,8 @@ public class AppConfig {
                 "\n%s\n You have been assigned with a new manuscript. Please check out your dashboard");
         return message;
     }
+    @Bean
+    public StateMachineLogListener stateMachineLogListener() {
+        return new StateMachineLogListener();
+    }
 }

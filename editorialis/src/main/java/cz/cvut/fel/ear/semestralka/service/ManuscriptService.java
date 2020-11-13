@@ -1,7 +1,7 @@
 package cz.cvut.fel.ear.semestralka.service;
 
 import cz.cvut.fel.ear.semestralka.dao.ManuscriptRepository;
-import cz.cvut.fel.ear.semestralka.domain.ManuscriptStatus;
+import cz.cvut.fel.ear.semestralka.domain.ManuscriptStates;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,28 +15,25 @@ public class ManuscriptService {
     }
 
     public int getNumberOfNewManuscripts(){
-        return manuscriptRepository.findByManuscriptStatus(ManuscriptStatus.NEW).size();
+        return manuscriptRepository.findByManuscriptStatus(ManuscriptStates.NEW).size();
     }
     public int getNumberOfPendingManuscripts(){
-        return manuscriptRepository.findByManuscriptStatus(ManuscriptStatus.PENDING).size();
+        return manuscriptRepository.findByManuscriptStatus(ManuscriptStates.PENDING).size();
     }
     public int getNumberOfManuscriptsInReviewByReviewer(){
-        return manuscriptRepository.findByManuscriptStatus(ManuscriptStatus.IN_REVISION_BY_REVIEWER).size();
-    }
-    public int getNumberOfManuscriptsInRevisionByAuthor(){
-        return manuscriptRepository.findByManuscriptStatus(ManuscriptStatus.IN_REVISION_BY_AUTHOR).size();
+        return manuscriptRepository.findByManuscriptStatus(ManuscriptStates.IN_REVISION_BY_REVIEWER).size();
     }
     public int getNumberOfManuscriptsWithCompleteReviews(){
-        return manuscriptRepository.findByManuscriptStatus(ManuscriptStatus.IN_REVISION_BY_EDITOR).size();
+        return manuscriptRepository.findByManuscriptStatus(ManuscriptStates.IN_REVISION_BY_EDITOR).size();
     }
     public int getNumberOfManuscriptsRejected(){
-        return manuscriptRepository.findByManuscriptStatus(ManuscriptStatus.REJECTED).size();
+        return manuscriptRepository.findByManuscriptStatus(ManuscriptStates.REJECTED).size();
     }
     public int getNumberOfManuscriptsAccepted(){
-        return manuscriptRepository.findByManuscriptStatus(ManuscriptStatus.ACCEPTED).size();
+        return manuscriptRepository.findByManuscriptStatus(ManuscriptStates.ACCEPTED).size();
     }
     public int getNumberOfManuscriptsInRevision(){
-        return getNumberOfManuscriptsInRevisionByAuthor() + getNumberOfManuscriptsInReviewByReviewer();
+        return getNumberOfManuscriptsInReviewByReviewer();
     }
 
 }

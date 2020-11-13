@@ -9,7 +9,6 @@ import cz.cvut.fel.ear.semestralka.service.ManuscriptService;
 import cz.cvut.fel.ear.semestralka.service.ReviewService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 
 @Controller
@@ -91,7 +89,7 @@ public class HomeController {
     }
     @RequestMapping("/manuscripts")
     public String showManuscripts(Model model){
-        model.addAttribute("manuscripts", manuscriptRepository.findByManuscriptStatus(ManuscriptStatus.NEW));
+        model.addAttribute("manuscripts", manuscriptRepository.findByManuscriptStatus(ManuscriptStates.NEW));
         model.addAttribute("heading", "New Manuscripts");
         model.addAttribute("firstCol", "Title");
         model.addAttribute("thirdCol", "Category");

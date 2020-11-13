@@ -1,11 +1,13 @@
 package cz.cvut.fel.ear.semestralka.web.controller;
 
 import cz.cvut.fel.ear.semestralka.config.ManuscriptNotFoundException;
+import cz.cvut.fel.ear.semestralka.core.ManuscriptEvents;
 import cz.cvut.fel.ear.semestralka.dao.ManuscriptRepository;
 import cz.cvut.fel.ear.semestralka.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
+import org.springframework.statemachine.StateMachine;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -15,6 +17,7 @@ import java.util.Optional;
 public class ManuscriptController {
     @Autowired
     private ManuscriptRepository manuscriptRepo;
+
 
     @GetMapping("/manuscripts")
     public Iterable<Manuscript> getManuscripts() {
@@ -33,7 +36,7 @@ public class ManuscriptController {
                 .withAuthors(newManuscript.getAuthors())
                 .withCategory(newManuscript.getCategory())
                 .withEditor(newManuscript.getCategory().getEditor())
-                .withManuscriptStatus(ManuscriptStatus.NEW)
+                .withManuscriptStatus(ManuscriptStates.NEW)
                 .isClosed(false)
                 .build();
         return man;
@@ -59,7 +62,7 @@ public class ManuscriptController {
     }
 
     @PatchMapping("/manuscripts/{id}/update-status")
-    public Manuscript updateStatus(@PathVariable("id") Long id, @RequestBody ManuscriptStatus status) {
+    public Manuscript updateStatus(@PathVariable("id") Long id, @RequestBody ManuscriptStates status) {
         return manuscriptRepo.findById(id)
                 .map(manuscript -> {
                     manuscript.setManuscriptStatus(status);

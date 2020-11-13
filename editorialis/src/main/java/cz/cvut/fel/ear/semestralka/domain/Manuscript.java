@@ -1,6 +1,5 @@
 package cz.cvut.fel.ear.semestralka.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -41,13 +40,17 @@ public class Manuscript extends BaseDocumentEntity {
     private Category category;
 
     @Enumerated(EnumType.STRING)
-    private ManuscriptStatus manuscriptStatus;
+    private ManuscriptStates manuscriptStatus;
 
     @Column
     private boolean closed;
 
     protected Manuscript() {
         super();
+    }
+
+    public ManuscriptStates getManuscriptStatus() {
+        return manuscriptStatus;
     }
 
     public static class ManuscriptBuilder{
@@ -57,7 +60,7 @@ public class Manuscript extends BaseDocumentEntity {
         private Editor editor;
         private List<Review> reviews;
         private Category category;
-        private ManuscriptStatus manuscriptStatus;
+        private ManuscriptStates manuscriptStatus;
         private boolean closed;
         private String url;
 
@@ -93,7 +96,7 @@ public class Manuscript extends BaseDocumentEntity {
             return this;
         }
 
-        public ManuscriptBuilder withManuscriptStatus(ManuscriptStatus status){
+        public ManuscriptBuilder withManuscriptStatus(ManuscriptStates status){
             this.manuscriptStatus = status;
             return this;
         }

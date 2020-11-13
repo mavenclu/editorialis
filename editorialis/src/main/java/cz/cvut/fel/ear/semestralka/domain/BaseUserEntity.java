@@ -28,12 +28,12 @@ public abstract class BaseUserEntity {
     @NumberFormat(style = NumberFormat.Style.NUMBER)
     private String phoneNumber;
     @NotNull
-    @Size(min = 2, max = 20)
+    @Size(min = 2, max = 20, message = "Name must contain at least 2 letters and at most 20 letters")
     private String firstName;
     @NotNull
-    @Size(min = 2, max = 20)
+    @Size(min = 2, max = 20, message = "Last name must contain at least 2 letters and at most 20 letters")
     private String lastName;
-    private String name;
+    private final String name = firstName + " " + lastName;
 
     private LocalDateTime lastUpdate;
 
