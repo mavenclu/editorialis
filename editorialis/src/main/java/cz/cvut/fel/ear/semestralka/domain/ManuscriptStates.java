@@ -4,8 +4,8 @@ public enum ManuscriptStates {
     START("start"),
     NEW("new"),
     PENDING("pending"),
-    IN_REVISION_BY_REVIEWER("inRevisionByReviewers"),
-    IN_REVISION_BY_EDITOR("inRevisionByEditor"),
+    PEER_REVIEW("underRevisionByReviewers"),
+    PRINCIPAL_REVIEW("underRevisionByEditor"),
     ACCEPTED("accepted"),
     REJECTED("rejected");
 

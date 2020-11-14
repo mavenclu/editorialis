@@ -2,7 +2,6 @@ package cz.cvut.fel.ear.semestralka.domain;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
@@ -16,7 +15,7 @@ public class Editor extends BaseUserEntity {
     @OneToMany(mappedBy = "editor")
     private List<Manuscript> managedManuscripts;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 

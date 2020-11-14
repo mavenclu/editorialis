@@ -1,0 +1,3 @@
+cz/cvut/fel/ear/semestralka/config/StateMachineConfigTest.java
+ cz.cvut.fel.ear.semestralka.config.StateMachineConfigTest
+ cz.cvut.fel.ear.semestralka.config.StateMachineConfigTest$Config

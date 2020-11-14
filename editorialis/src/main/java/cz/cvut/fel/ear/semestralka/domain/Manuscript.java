@@ -30,6 +30,7 @@ public class Manuscript extends BaseDocumentEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "editor_id")
+//    @JsonIgnore
     private Editor editor;
 
     @OneToMany(mappedBy = "manuscript")
@@ -37,6 +38,7 @@ public class Manuscript extends BaseDocumentEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
+//    @JsonIgnore
     private Category category;
 
     @Enumerated(EnumType.STRING)

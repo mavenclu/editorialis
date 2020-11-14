@@ -21,10 +21,10 @@ public class ManuscriptService {
         return manuscriptRepository.findByManuscriptStatus(ManuscriptStates.PENDING).size();
     }
     public int getNumberOfManuscriptsInReviewByReviewer(){
-        return manuscriptRepository.findByManuscriptStatus(ManuscriptStates.IN_REVISION_BY_REVIEWER).size();
+        return manuscriptRepository.findByManuscriptStatus(ManuscriptStates.PEER_REVIEW).size();
     }
     public int getNumberOfManuscriptsWithCompleteReviews(){
-        return manuscriptRepository.findByManuscriptStatus(ManuscriptStates.IN_REVISION_BY_EDITOR).size();
+        return manuscriptRepository.findByManuscriptStatus(ManuscriptStates.PRINCIPAL_REVIEW).size();
     }
     public int getNumberOfManuscriptsRejected(){
         return manuscriptRepository.findByManuscriptStatus(ManuscriptStates.REJECTED).size();

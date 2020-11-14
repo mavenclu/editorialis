@@ -1,0 +1,73 @@
+cz/cvut/fel/ear/semestralka/dao/ReviewerRepository.java
+ cz.cvut.fel.ear.semestralka.dao.ReviewerRepository
+cz/cvut/fel/ear/semestralka/domain/ManuscriptStates.java
+ cz.cvut.fel.ear.semestralka.domain.ManuscriptStates
+cz/cvut/fel/ear/semestralka/web/controller/AppController.java
+ cz.cvut.fel.ear.semestralka.web.controller.AppController
+cz/cvut/fel/ear/semestralka/service/ManuscriptService.java
+ cz.cvut.fel.ear.semestralka.service.ManuscriptService
+cz/cvut/fel/ear/semestralka/dao/CategoryRepository.java
+ cz.cvut.fel.ear.semestralka.dao.CategoryRepository
+cz/cvut/fel/ear/semestralka/domain/MailObject.java
+ cz.cvut.fel.ear.semestralka.domain.MailObject
+cz/cvut/fel/ear/semestralka/domain/Reviewer.java
+ cz.cvut.fel.ear.semestralka.domain.Reviewer
+ cz.cvut.fel.ear.semestralka.domain.Reviewer$ReviewerBuilder
+cz/cvut/fel/ear/semestralka/dao/ManuscriptRepository.java
+ cz.cvut.fel.ear.semestralka.dao.ManuscriptRepository
+cz/cvut/fel/ear/semestralka/domain/BaseDocumentEntity.java
+ cz.cvut.fel.ear.semestralka.domain.BaseDocumentEntity
+cz/cvut/fel/ear/semestralka/StartApplication.java
+ cz.cvut.fel.ear.semestralka.StartApplication
+cz/cvut/fel/ear/semestralka/domain/Editor.java
+ cz.cvut.fel.ear.semestralka.domain.Editor
+ cz.cvut.fel.ear.semestralka.domain.Editor$EditorBuilder
+cz/cvut/fel/ear/semestralka/domain/ManuscriptForm.java
+ cz.cvut.fel.ear.semestralka.domain.ManuscriptForm
+cz/cvut/fel/ear/semestralka/domain/ManuscriptEvents.java
+ cz.cvut.fel.ear.semestralka.domain.ManuscriptEvents
+cz/cvut/fel/ear/semestralka/web/controller/ManuscriptController.java
+ cz.cvut.fel.ear.semestralka.web.controller.ManuscriptController
+cz/cvut/fel/ear/semestralka/domain/Review.java
+ cz.cvut.fel.ear.semestralka.domain.Review
+ cz.cvut.fel.ear.semestralka.domain.Review$ReviewBuilder
+cz/cvut/fel/ear/semestralka/config/AppConfig.java
+ cz.cvut.fel.ear.semestralka.config.AppConfig
+cz/cvut/fel/ear/semestralka/dao/EditorRepository.java
+ cz.cvut.fel.ear.semestralka.dao.EditorRepository
+cz/cvut/fel/ear/semestralka/dao/ReviewRepository.java
+ cz.cvut.fel.ear.semestralka.dao.ReviewRepository
+cz/cvut/fel/ear/semestralka/domain/Category.java
+ cz.cvut.fel.ear.semestralka.domain.Category
+ cz.cvut.fel.ear.semestralka.domain.Category$CategoryBuilder
+cz/cvut/fel/ear/semestralka/config/StateMachineLogListener.java
+ cz.cvut.fel.ear.semestralka.config.StateMachineLogListener
+cz/cvut/fel/ear/semestralka/service/EmailServiceImpl.java
+ cz.cvut.fel.ear.semestralka.service.EmailServiceImpl
+cz/cvut/fel/ear/semestralka/web/controller/EmailController.java
+ cz.cvut.fel.ear.semestralka.web.controller.EmailController
+cz/cvut/fel/ear/semestralka/domain/ReviewSuggestion.java
+ cz.cvut.fel.ear.semestralka.domain.ReviewSuggestion
+cz/cvut/fel/ear/semestralka/domain/Manuscript.java
+ cz.cvut.fel.ear.semestralka.domain.Manuscript
+ cz.cvut.fel.ear.semestralka.domain.Manuscript$ManuscriptBuilder
+cz/cvut/fel/ear/semestralka/config/ManuscriptNotFoundException.java
+ cz.cvut.fel.ear.semestralka.config.ManuscriptNotFoundException
+cz/cvut/fel/ear/semestralka/service/ReviewService.java
+ cz.cvut.fel.ear.semestralka.service.ReviewService
+cz/cvut/fel/ear/semestralka/domain/BaseUserEntity.java
+ cz.cvut.fel.ear.semestralka.domain.BaseUserEntity
+cz/cvut/fel/ear/semestralka/dao/AuthorRepository.java
+ cz.cvut.fel.ear.semestralka.dao.AuthorRepository
+cz/cvut/fel/ear/semestralka/service/EmailService.java
+ cz.cvut.fel.ear.semestralka.service.EmailService
+cz/cvut/fel/ear/semestralka/config/AuthorNotFoundException.java
+ cz.cvut.fel.ear.semestralka.config.AuthorNotFoundException
+cz/cvut/fel/ear/semestralka/domain/Role.java
+ cz.cvut.fel.ear.semestralka.domain.Role
+cz/cvut/fel/ear/semestralka/domain/Author.java
+ cz.cvut.fel.ear.semestralka.domain.Author
+ cz.cvut.fel.ear.semestralka.domain.Author$AuthorBuilder
+cz/cvut/fel/ear/semestralka/config/StateMachineConfig.java
+ cz.cvut.fel.ear.semestralka.config.StateMachineConfig
+ cz.cvut.fel.ear.semestralka.config.StateMachineConfig$1

@@ -2,10 +2,11 @@ package cz.cvut.fel.ear.semestralka.dao;
 
 import cz.cvut.fel.ear.semestralka.domain.Reviewer;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-@Repository
+@RepositoryRestResource
 public interface ReviewerRepository extends PagingAndSortingRepository<Reviewer, Long> {
 
     List<Reviewer> findAll();

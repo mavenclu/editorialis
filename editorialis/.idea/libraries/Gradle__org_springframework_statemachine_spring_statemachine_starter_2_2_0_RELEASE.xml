@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.springframework.statemachine:spring-statemachine-starter:2.2.0.RELEASE">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.statemachine/spring-statemachine-starter/2.2.0.RELEASE/18db9c6f66de852b74b6a164214a99cfb89468cc/spring-statemachine-starter-2.2.0.RELEASE.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.statemachine/spring-statemachine-starter/2.2.0.RELEASE/8b8aaf41a7b8df2fec6ee5d228e3aa1a4607713e/spring-statemachine-starter-2.2.0.RELEASE-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

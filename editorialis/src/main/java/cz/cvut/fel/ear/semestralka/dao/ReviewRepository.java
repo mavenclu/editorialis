@@ -3,11 +3,12 @@ package cz.cvut.fel.ear.semestralka.dao;
 import cz.cvut.fel.ear.semestralka.domain.Review;
 import cz.cvut.fel.ear.semestralka.domain.ReviewSuggestion;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
-@Repository
+@RepositoryRestResource
 public interface ReviewRepository extends PagingAndSortingRepository<Review, Long> {
 
     Review findReviewByDocumentId(Long reviewId);

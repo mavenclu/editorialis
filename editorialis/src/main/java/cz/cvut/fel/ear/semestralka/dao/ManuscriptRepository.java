@@ -2,13 +2,14 @@ package cz.cvut.fel.ear.semestralka.dao;
 
 import cz.cvut.fel.ear.semestralka.domain.*;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 
 @RepositoryRestResource
-public interface ManuscriptRepository extends CrudRepository<Manuscript, Long> {
+public interface ManuscriptRepository extends PagingAndSortingRepository<Manuscript, Long> {
     List<Manuscript> findAll();
     Manuscript findByDocumentId(@Param("id") Long id);
     List<Manuscript> findByTitle(@Param("title") String title);

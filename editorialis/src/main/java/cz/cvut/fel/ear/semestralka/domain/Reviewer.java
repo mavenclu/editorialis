@@ -2,7 +2,6 @@ package cz.cvut.fel.ear.semestralka.domain;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;

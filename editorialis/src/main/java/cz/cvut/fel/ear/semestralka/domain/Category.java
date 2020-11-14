@@ -2,7 +2,6 @@ package cz.cvut.fel.ear.semestralka.domain;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -23,7 +22,7 @@ public class Category {
     @Size(min = 2, max = 30)
     private String name;
 
-    @OneToOne(mappedBy = "category")
+    @OneToOne(mappedBy = "category", fetch = FetchType.LAZY)
     private Editor editor;
 
     @OneToMany(mappedBy = "category")

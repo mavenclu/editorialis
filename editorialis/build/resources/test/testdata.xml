@@ -1,0 +1,13 @@
+<dataset>
+
+    <manuscript document_id="1" title="Title of the first manuscript" manuscript_status="manuscript_status.new"/>
+    <manuscript document_id="2" title="Title of the second manuscript" manuscript_status="manuscript_status.new"/>
+    <manuscript document_id="3" title="Title of the third manuscript" manuscript_status="manuscript_status.pending"/>
+    <manuscript document_id="4" title="Title of the fourth manuscript" manuscript_status="manuscript_status.in_revision_by_reviewer"/>
+    <manuscript document_id="5" title="Title of the fifth manuscript" manuscript_status="manuscript_status.in_revision_by_author"/>
+    <manuscript document_id="6" title="Title of the sixth manuscript" manuscript_status="manuscript_status.in_revision_by_editor"/>
+    <manuscript document_id="7" title="Title of the seventh manuscript" manuscript_status="manuscript_status.accepted"/>
+    <manuscript document_id="8" title="Title of the eighth manuscript" manuscript_status="manuscript_status.rejected"/>
+    <manuscript document_id="9" title="Title of the ninth manuscript" manuscript_status="manuscript_status.accepted"/>
+
+</dataset>
