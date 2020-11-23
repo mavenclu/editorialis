@@ -1,18 +1,20 @@
 package cz.cvut.fel.ear.semestralka.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
+@RequiredArgsConstructor
 @Entity
 @Table(name = "categories")
 public class Category {
+    @Setter(AccessLevel.NONE)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long categoryId;
@@ -22,57 +24,24 @@ public class Category {
     @Size(min = 2, max = 30)
     private String name;
 
-    @OneToOne(mappedBy = "category", fetch = FetchType.LAZY)
-    private Editor editor;
+    @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST)
+    private Set<Editor> editors;
 
-    @OneToMany(mappedBy = "category")
-    private List<Manuscript> manuscripts;
+    @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST)
+    private Set<Reviewer> reviewers;
 
-    @OneToMany(mappedBy = "category")
-    private List<Reviewer> reviewers;
-
-    public static class CategoryBuilder{
-        private Long categoryId;
-        private String name;
-        private Editor editor;
-        private List<Reviewer> reviewers;
-        private List<Manuscript> manuscripts;
+    @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST)
+    private Set<Manuscript> manuscripts;
 
 
-        public CategoryBuilder(long id){
-            this.categoryId = id;
-        }
-        public CategoryBuilder(){}
+    public Category(@NotNull @Size(min = 2, max = 30) String name) {
+        this.name = name;
+    }
 
-        public CategoryBuilder withId(long categoryId){
-            this.categoryId = categoryId;
-            return this;
-        }
-        public CategoryBuilder withName(String name){
-            this.name = name;
-            return this;
-        }
-
-        public CategoryBuilder withEditor(Editor editor){
-            this.editor = editor;
-            return this;
-        }
-        public CategoryBuilder withReviewers(List<Reviewer> reviewers){
-            this.reviewers = reviewers;
-            return this;
-        }
-        public CategoryBuilder withManuscripts(List<Manuscript> manuscripts){
-            this.manuscripts = manuscripts;
-            return this;
-        }
-        public Category build(){
-            Category cat = new Category();
-            cat.setCategoryId(categoryId);
-            cat.setName(name);
-            cat.setEditor(editor);
-            cat.setReviewers(reviewers);
-            cat.setManuscripts(manuscripts);
-            return cat;
-        }
+    public Category(@NotNull @Size(min = 2, max = 30) String name, Set<Editor> editors, Set<Reviewer> reviewers, Set<Manuscript> manuscripts) {
+        this.name = name;
+        this.editors = editors;
+        this.reviewers = reviewers;
+        this.manuscripts = manuscripts;
     }
 }

@@ -1,0 +1,4 @@
+UserID, email, phone number, first name, last name, category id
+1, editor1@test.com, 123456789, Jan, Novak, 1
+2, editor2@test.com, 344456789, Olga, Petrakova, 2
+3, editor3@test.com, 344456789, Nikola, Schnobs, 3

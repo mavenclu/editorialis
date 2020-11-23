@@ -1,7 +1,7 @@
 package cz.cvut.fel.ear.semestralka.domain;
 
-public enum ManuscriptStates {
-    START("start"),
+public enum ManuscriptState {
+//    START("start"),
     NEW("new"),
     PENDING("pending"),
     PEER_REVIEW("underRevisionByReviewers"),
@@ -10,7 +10,7 @@ public enum ManuscriptStates {
     REJECTED("rejected");
 
     public final String label;
-    ManuscriptStates(String label){
+    ManuscriptState(String label){
         this.label = label;
     }
 }

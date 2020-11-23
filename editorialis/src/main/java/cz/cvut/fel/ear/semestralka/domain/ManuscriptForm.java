@@ -7,6 +7,5 @@ import java.util.Set;
 public class ManuscriptForm {
     private String title;
     private Category category;
-    private Set<Author> authors;
     private Author sender;
 }

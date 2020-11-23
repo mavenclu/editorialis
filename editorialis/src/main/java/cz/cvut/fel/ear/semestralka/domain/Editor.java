@@ -2,8 +2,10 @@ package cz.cvut.fel.ear.semestralka.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -12,10 +14,10 @@ import java.util.List;
 @Table(name = "editors")
 public class Editor extends BaseUserEntity {
 
-    @OneToMany(mappedBy = "editor")
-    private List<Manuscript> managedManuscripts;
+    @OneToMany(mappedBy = "editor", cascade = CascadeType.PERSIST)
+    private List<Manuscript> managedManuscripts = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 
@@ -23,11 +25,14 @@ public class Editor extends BaseUserEntity {
         super();
     }
 
+    public void addManagedManuscript(Manuscript manuscript){
+        managedManuscripts.add(manuscript);
+    }
+
     public static class EditorBuilder{
-        private List<Manuscript> managedManuscripts;
+        private List<Manuscript> managedManuscripts = new ArrayList<>();
         private Category category;
         private String email;
-        private String phoneNumber;
         private String firstName;
         private String lastName;
 
@@ -49,10 +54,6 @@ public class Editor extends BaseUserEntity {
              return this;
         }
 
-        public EditorBuilder withPhoneNumber(String phoneNumber){
-            this.phoneNumber = phoneNumber;
-            return this;
-        }
 
         public EditorBuilder withFirstName(String firstName){
             this.firstName = firstName;
@@ -69,7 +70,6 @@ public class Editor extends BaseUserEntity {
             ed.setCategory(category);
             ed.setManagedManuscripts(managedManuscripts);
             ed.setEmail(email);
-            ed.setPhoneNumber(phoneNumber);
             ed.setFirstName(firstName);
             ed.setLastName(lastName);
             return ed;

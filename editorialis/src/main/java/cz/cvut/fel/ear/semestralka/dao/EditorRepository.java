@@ -10,10 +10,10 @@ import java.util.List;
 public interface EditorRepository extends PagingAndSortingRepository<Editor, Long> {
 
     List<Editor> findAll();
-    Editor findEditorByUserId(Long editorId);
-    List<Editor> findEditorsByLastName(String lastName);
-    List<Editor> findEditorsByLastNameContaining(String containing);
-    List<Editor> findEditorsByCategory_Name(String categoryName);
-    List<Editor> findEditorsByCategory_CategoryId(Long id);
+    Editor findByUserId(Long editorId);
+    List<Editor> findByLastName(String lastName);
+    List<Editor> findByLastNameContaining(String containing);
+    List<Editor> findByCategory_Name(String categoryName);
+    List<Editor> findByCategory_CategoryId(Long id);
 
 }

@@ -2,10 +2,14 @@ package cz.cvut.fel.ear.semestralka.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -14,25 +18,35 @@ import java.util.List;
 @Table(name = "reviewers")
 public class Reviewer extends BaseUserEntity {
 
-    @OneToMany(mappedBy = "reviewer")
-    private List<Review> reviews;
+    @OneToMany(mappedBy = "reviewer", cascade = CascadeType.PERSIST)
+    private List<Review> reviews = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @OneToMany(mappedBy = "reviewer", cascade = CascadeType.PERSIST)
+    private List<Manuscript> reviewedManuscripts;
+
     private boolean onReview;
+
+    @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss")
+    private LocalDateTime whenAssigned;
 
     protected Reviewer() {
         super();
     }
 
+
+    public void addReviews(Review review) {
+        reviews.add(review);
+    }
+
     public static class ReviewerBuilder{
-        private List<Review> reviews;
+        private List<Review> reviews = new ArrayList<>();
         private Category category;
         private boolean onReview;
         private String email;
-        private String phoneNumber;
         private String firstName;
         private String lastName;
 
@@ -54,13 +68,8 @@ public class Reviewer extends BaseUserEntity {
             return this;
         }
 
-        public ReviewerBuilder withPhoneNumber(String phoneNumber){
-            this.phoneNumber = phoneNumber;
-            return this;
-        }
-
         public ReviewerBuilder withFirstName(@NotNull String name){
-            this.firstName = firstName;
+            this.firstName = name;
             return this;
         }
 
@@ -80,7 +89,6 @@ public class Reviewer extends BaseUserEntity {
             rev.setCategory(category);
             rev.setOnReview(onReview);
             rev.setEmail(email);
-            rev.setPhoneNumber(phoneNumber);
             rev.setFirstName(firstName);
             rev.setLastName(lastName);
             return rev;

@@ -14,10 +14,11 @@ import java.util.List;
 public interface CategoryRepository extends PagingAndSortingRepository<Category, Long> {
 
     List<Category> findAll();
-    Category findCategoryByName(String name);
-    Category findCategoryByCategoryId(Long categoryId);
+    Category findByName(String name);
+    Category findByCategoryId(Long id);
 
     @RestResource(rel = "name-contains", path = "containsName")
-    Page<Category> findCategoriesByNameContaining(@Param("name") String containing, Pageable pageable);
+    Page<Category> findByNameContaining(@Param("name") String containing, Pageable pageable);
+
 
 }

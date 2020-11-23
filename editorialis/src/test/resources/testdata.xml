@@ -1,13 +1,27 @@
 <dataset>
+    <category category_id="1" name="Java"/>
+    <category category_id="2" name="Python"/>
+    <category category_id="3" name="React"/>
+
+    <author user_id="1" email="author1@test.com" phone_number="452903454" first_name="Adam" last_name="Jakobovic"/>
+    <author user_id="2" email="author2@test.com" phone_number="524903454" first_name="Benjamin" last_name="Klein"/>
+    <author user_id="3" email="author3@test.com" phone_number="245903454" first_name="Josef" last_name="Novotny"/>
 
     <manuscript document_id="1" title="Title of the first manuscript" manuscript_status="manuscript_status.new"/>
     <manuscript document_id="2" title="Title of the second manuscript" manuscript_status="manuscript_status.new"/>
+
     <manuscript document_id="3" title="Title of the third manuscript" manuscript_status="manuscript_status.pending"/>
-    <manuscript document_id="4" title="Title of the fourth manuscript" manuscript_status="manuscript_status.in_revision_by_reviewer"/>
-    <manuscript document_id="5" title="Title of the fifth manuscript" manuscript_status="manuscript_status.in_revision_by_author"/>
-    <manuscript document_id="6" title="Title of the sixth manuscript" manuscript_status="manuscript_status.in_revision_by_editor"/>
+
+    <manuscript document_id="4" title="Title of the fourth manuscript" manuscript_status="manuscript_status.peer_review"/>
+    <manuscript document_id="5" title="Title of the fifth manuscript" manuscript_status="manuscript_status.peer_review"/>
+
+    <manuscript document_id="6" title="Title of the sixth manuscript" manuscript_status="manuscript_status.principal_review"/>
     <manuscript document_id="7" title="Title of the seventh manuscript" manuscript_status="manuscript_status.accepted"/>
     <manuscript document_id="8" title="Title of the eighth manuscript" manuscript_status="manuscript_status.rejected"/>
     <manuscript document_id="9" title="Title of the ninth manuscript" manuscript_status="manuscript_status.accepted"/>
+
+    <editor user_id="1" email="editor1@test.com" phone_number="123456789" first_name="Jan" last_name="Novak" category_id="1"/>
+    <editor user_id="2" email="editor2@test.com" phone_number="344456789" first_name="Olga" last_name="Petrakova" category_id="2"/>
+    <editor user_id="3" email="editor3@test.com" phone_number="253456789" first_name="Nikola" last_name="Schnobs" category_id="3"/>
 
 </dataset>

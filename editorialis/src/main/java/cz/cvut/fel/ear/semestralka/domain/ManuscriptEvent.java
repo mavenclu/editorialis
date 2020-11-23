@@ -1,10 +1,10 @@
 package cz.cvut.fel.ear.semestralka.domain;
 
-public enum ManuscriptEvents {
-    manuscriptUploaded,
+public enum ManuscriptEvent {
+//    manuscriptUploaded,
     manuscriptAssignedToEditor,
     manuscriptAssignedToReviewer,
-    reviewUploaded,
+    completedReview,
     manuscriptAccepted,
     manuscriptRejected
 }

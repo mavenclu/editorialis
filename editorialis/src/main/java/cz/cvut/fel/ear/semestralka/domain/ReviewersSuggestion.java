@@ -1,6 +1,6 @@
 package cz.cvut.fel.ear.semestralka.domain;
 
-public enum ReviewSuggestion {
+public enum ReviewersSuggestion {
     APPROVE("success"),
     MINOR_REVISIONS("success"),
     MAJOR_REVISIONS("danger"),
@@ -9,7 +9,7 @@ public enum ReviewSuggestion {
 
     public final String label;
 
-    private ReviewSuggestion(String label) {
+    private ReviewersSuggestion(String label) {
         this.label = label;
     }
 }

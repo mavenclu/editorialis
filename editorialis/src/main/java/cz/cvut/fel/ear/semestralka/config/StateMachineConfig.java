@@ -1,78 +1,135 @@
 package cz.cvut.fel.ear.semestralka.config;
 
-import cz.cvut.fel.ear.semestralka.domain.ManuscriptEvents;
-import cz.cvut.fel.ear.semestralka.domain.ManuscriptStates;
+import cz.cvut.fel.ear.semestralka.domain.ManuscriptEvent;
+import cz.cvut.fel.ear.semestralka.domain.ManuscriptState;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.statemachine.config.EnableStateMachine;
-import org.springframework.statemachine.config.EnableStateMachineFactory;
-import org.springframework.statemachine.config.EnumStateMachineConfigurerAdapter;
+import org.springframework.messaging.Message;
+import org.springframework.statemachine.StateMachine;
+import org.springframework.statemachine.config.*;
 import org.springframework.statemachine.config.builders.StateMachineConfigurationConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
 import org.springframework.statemachine.listener.StateMachineListener;
 import org.springframework.statemachine.listener.StateMachineListenerAdapter;
 import org.springframework.statemachine.state.State;
-import org.springframework.stereotype.Component;
+import org.springframework.statemachine.transition.Transition;
 
 import java.util.EnumSet;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Configuration
 @EnableStateMachineFactory
-@Component
-public class StateMachineConfig extends
-        EnumStateMachineConfigurerAdapter<ManuscriptStates, ManuscriptEvents> {
+public class StateMachineConfig extends StateMachineConfigurerAdapter<ManuscriptState, ManuscriptEvent> {
 
+    private final Logger log = LoggerFactory.getLogger(StateMachineConfig.class);
 
+//    @Bean
+//    public StateMachine<ManuscriptState, ManuscriptEvent> buildMachine() throws Exception{
+//        StateMachineBuilder.Builder<ManuscriptState, ManuscriptEvent> builder = StateMachineBuilder.builder();
+//
+//        builder.configureStates()
+//                .withStates()
+//                .initial(ManuscriptState.NEW)
+//                .end(ManuscriptState.ACCEPTED)
+//                .end(ManuscriptState.REJECTED)
+//                .states(EnumSet.allOf(ManuscriptState.class));
+//
+//        builder.configureTransitions()
+//                .withExternal().source(ManuscriptState.NEW)
+//                .target(ManuscriptState.PENDING)
+//                .event(ManuscriptEvent.manuscriptAssignedToEditor)
+//                .and()
+//                .withExternal()
+//                .source(ManuscriptState.PENDING)
+//                .target(ManuscriptState.PEER_REVIEW)
+//                .event(ManuscriptEvent.manuscriptAssignedToReviewer)
+//                .and()
+//                .withExternal()
+//                .source(ManuscriptState.PEER_REVIEW)
+//                .target(ManuscriptState.PRINCIPAL_REVIEW)
+//                .event(ManuscriptEvent.completedReview)
+//                .and()
+//                .withExternal()
+//                .source(ManuscriptState.PRINCIPAL_REVIEW)
+//                .target(ManuscriptState.ACCEPTED)
+//                .event(ManuscriptEvent.manuscriptAccepted)
+//                .and()
+//                .withExternal()
+//                .source(ManuscriptState.PENDING)
+//                .target(ManuscriptState.REJECTED)
+//                .event(ManuscriptEvent.manuscriptRejected)
+//                .and()
+//                .withExternal()
+//                .source(ManuscriptState.PRINCIPAL_REVIEW)
+//                .target(ManuscriptState.REJECTED)
+//                .event(ManuscriptEvent.manuscriptRejected);
+//
+//
+//        builder.configureConfiguration()
+//                .withConfiguration()
+//                .autoStartup(false)
+//                .beanFactory(null)
+//                .taskExecutor(null)
+//                .taskScheduler(null)
+//                .listener(listener());
+//        return builder.build();
+//    }
+//
     @Override
-    public void configure(StateMachineStateConfigurer<ManuscriptStates, ManuscriptEvents> states) throws Exception {
+    public void configure(StateMachineStateConfigurer<ManuscriptState, ManuscriptEvent> states) throws Exception {
         states
                 .withStates()
-                .initial(ManuscriptStates.START)
-                .end(ManuscriptStates.ACCEPTED)
-                .end(ManuscriptStates.REJECTED)
-                .states(EnumSet.allOf(ManuscriptStates.class));
+                .initial(ManuscriptState.NEW)
+                .end(ManuscriptState.ACCEPTED)
+                .end(ManuscriptState.REJECTED)
+                .states(EnumSet.allOf(ManuscriptState.class));
     }
 
     @Override
-    public void configure(StateMachineTransitionConfigurer<ManuscriptStates, ManuscriptEvents> transitions) throws Exception {
+    public void configure(StateMachineTransitionConfigurer<ManuscriptState, ManuscriptEvent> transitions) throws Exception {
         transitions
-                .withExternal().source(ManuscriptStates.START)
-                .target(ManuscriptStates.NEW)
-                .event(ManuscriptEvents.manuscriptUploaded)
-                .and()
-                .withExternal().source(ManuscriptStates.NEW)
-                .target(ManuscriptStates.PENDING)
-                .event(ManuscriptEvents.manuscriptAssignedToEditor)
-                .and()
-                .withExternal()
-                .source(ManuscriptStates.PENDING)
-                .target(ManuscriptStates.PEER_REVIEW)
-                .event(ManuscriptEvents.manuscriptAssignedToReviewer)
+//                .withExternal().source(ManuscriptStates.START)
+//                .target(ManuscriptStates.NEW)
+//                .event(ManuscriptEvents.manuscriptUploaded)
+//                .and()
+                .withExternal().source(ManuscriptState.NEW)
+                .target(ManuscriptState.PENDING)
+                .event(ManuscriptEvent.manuscriptAssignedToEditor)
                 .and()
                 .withExternal()
-                .source(ManuscriptStates.PEER_REVIEW)
-                .target(ManuscriptStates.PRINCIPAL_REVIEW)
-                .event(ManuscriptEvents.reviewUploaded)
+                .source(ManuscriptState.PENDING)
+                .target(ManuscriptState.PEER_REVIEW)
+                .event(ManuscriptEvent.manuscriptAssignedToReviewer)
                 .and()
                 .withExternal()
-                .source(ManuscriptStates.PRINCIPAL_REVIEW)
-                .target(ManuscriptStates.ACCEPTED)
-                .event(ManuscriptEvents.manuscriptAccepted)
+                .source(ManuscriptState.PEER_REVIEW)
+                .target(ManuscriptState.PRINCIPAL_REVIEW)
+                .event(ManuscriptEvent.completedReview)
                 .and()
                 .withExternal()
-                .source(ManuscriptStates.PENDING)
-                .target(ManuscriptStates.REJECTED)
-                .event(ManuscriptEvents.manuscriptRejected)
+                .source(ManuscriptState.PRINCIPAL_REVIEW)
+                .target(ManuscriptState.ACCEPTED)
+                .event(ManuscriptEvent.manuscriptAccepted)
                 .and()
                 .withExternal()
-                .source(ManuscriptStates.PRINCIPAL_REVIEW)
-                .target(ManuscriptStates.REJECTED)
-                .event(ManuscriptEvents.manuscriptRejected);
+                .source(ManuscriptState.PENDING)
+                .target(ManuscriptState.REJECTED)
+                .event(ManuscriptEvent.manuscriptRejected)
+                .and()
+                .withExternal()
+                .source(ManuscriptState.PRINCIPAL_REVIEW)
+                .target(ManuscriptState.REJECTED)
+                .event(ManuscriptEvent.manuscriptRejected);
     }
 
     @Override
-    public void configure(StateMachineConfigurationConfigurer<ManuscriptStates, ManuscriptEvents> config) throws Exception {
+    public void configure(StateMachineConfigurationConfigurer<ManuscriptState, ManuscriptEvent> config) throws Exception {
         config
                 .withConfiguration()
                 .autoStartup(true)
@@ -85,13 +142,38 @@ public class StateMachineConfig extends
 //            System.out.println("state changed from " + from.toString() + "        to" + to.toString());
 //        }
 //    }
+
+
+//    @Bean
+//    public StateMachineListener<ManuscriptState, ManuscriptEvent> listener() {
+//        return new StateMachineListenerAdapter<>() {
+//            @Override
+//            public void stateChanged(State<ManuscriptState, ManuscriptEvent> from, State<ManuscriptState, ManuscriptEvent> to) {
+//                System.out.println("State change to " + to.getId());
+//            }
+//        };
+//    }
+
     @Bean
-    public StateMachineListener<ManuscriptStates, ManuscriptEvents> listener() {
-        return new StateMachineListenerAdapter<>() {
-            @Override
-            public void stateChanged(State<ManuscriptStates, ManuscriptEvents> from, State<ManuscriptStates, ManuscriptEvents> to) {
-                System.out.println("State change to " + to.getId());
-            }
-        };
-    }
+    StateMachineListener<ManuscriptState, ManuscriptEvent> listener() {
+    return new StateMachineListenerAdapter<ManuscriptState, ManuscriptEvent>(){
+        @Override
+        public void transition(Transition<ManuscriptState, ManuscriptEvent> transition) {
+            log.warn("move from:{} to:{}",
+                    ofNullableState(transition.getSource()),
+                    ofNullableState(transition.getTarget()));
+        }
+
+        @Override
+        public void eventNotAccepted(Message<ManuscriptEvent> event) {
+            log.error("event not accepted: {}", event);
+        }
+
+        private Object ofNullableState(State s) {
+            return Optional.ofNullable(s)
+                    .map(State::getId)
+                    .orElse(null);
+        }
+    };
+}
 }

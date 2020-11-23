@@ -1,71 +1,78 @@
 package cz.cvut.fel.ear.semestralka.config;
 
-import cz.cvut.fel.ear.semestralka.domain.ManuscriptEvents;
-import cz.cvut.fel.ear.semestralka.domain.ManuscriptStates;
+import cz.cvut.fel.ear.semestralka.domain.Manuscript;
+import cz.cvut.fel.ear.semestralka.domain.ManuscriptEvent;
+import cz.cvut.fel.ear.semestralka.domain.ManuscriptState;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.statemachine.StateMachine;
+import org.springframework.statemachine.config.StateMachineBuilder;
 import org.springframework.statemachine.config.StateMachineFactory;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 //@SpringJUnitConfig(StateMachineConfigTest.Config.class)
 @SpringBootTest
 class StateMachineConfigTest {
-    private StateMachine<ManuscriptStates, ManuscriptEvents> stateMachine;
+
+    private StateMachine<ManuscriptState, ManuscriptEvent> stateMachine;
     @Autowired
-    private StateMachineFactory<ManuscriptStates, ManuscriptEvents> factory;
+    private StateMachineFactory<ManuscriptState, ManuscriptEvent> factory;
 
     @BeforeEach
     void setUp() throws Exception {
         stateMachine = factory.getStateMachine(UUID.randomUUID());
+        stateMachine.start();
     }
 
     @Test
     void intTest(){
         Assertions.assertThat(stateMachine.getState().getId())
-                .isEqualTo(ManuscriptStates.START);
+                .isEqualTo(ManuscriptState.NEW);
 
         Assertions.assertThat(stateMachine).isNotNull();
     }
 
     @Test
     void fromStartToAcceptedTest(){
-        stateMachine.sendEvent(ManuscriptEvents.manuscriptUploaded);
-        stateMachine.sendEvent(ManuscriptEvents.manuscriptAssignedToEditor);
-        stateMachine.sendEvent(ManuscriptEvents.manuscriptAssignedToReviewer);
-        stateMachine.sendEvent(ManuscriptEvents.reviewUploaded);
-        stateMachine.sendEvent(ManuscriptEvents.manuscriptAccepted);
+        stateMachine.sendEvent(ManuscriptEvent.manuscriptAssignedToEditor);
+        stateMachine.sendEvent(ManuscriptEvent.manuscriptAssignedToReviewer);
+        stateMachine.sendEvent(ManuscriptEvent.completedReview);
+        stateMachine.sendEvent(ManuscriptEvent.manuscriptAccepted);
 
         Assertions.assertThat(stateMachine.getState().getId())
-                .isEqualTo(ManuscriptStates.ACCEPTED);
+                .isEqualTo(ManuscriptState.ACCEPTED);
     }
     @Test
     void fromStartToRejectedTest(){
-        stateMachine.sendEvent(ManuscriptEvents.manuscriptUploaded);
-        stateMachine.sendEvent(ManuscriptEvents.manuscriptAssignedToEditor);
-        stateMachine.sendEvent(ManuscriptEvents.manuscriptRejected);
+        stateMachine.sendEvent(ManuscriptEvent.manuscriptAssignedToEditor);
+        stateMachine.sendEvent(ManuscriptEvent.manuscriptAssignedToReviewer);
+        stateMachine.sendEvent(ManuscriptEvent.completedReview);
+        stateMachine.sendEvent(ManuscriptEvent.manuscriptRejected);
 
         Assertions.assertThat(stateMachine.getState().getId())
-                .isEqualTo(ManuscriptStates.REJECTED);
+                .isEqualTo(ManuscriptState.REJECTED);
+    }
+    @Test
+    void fromStartToRejectedRightAwayTest(){
+        stateMachine.sendEvent(ManuscriptEvent.manuscriptAssignedToEditor);
+        stateMachine.sendEvent(ManuscriptEvent.manuscriptRejected);
+
+        Assertions.assertThat(stateMachine.getState().getId())
+                .isEqualTo(ManuscriptState.REJECTED);
     }
     @Test
     void eventOutOfOrderWontChangeStateTest(){
-        stateMachine.sendEvent(ManuscriptEvents.manuscriptAssignedToReviewer);
+        stateMachine.sendEvent(ManuscriptEvent.manuscriptAssignedToReviewer);
         Assertions.assertThat(stateMachine.getState().getId())
-                .isEqualTo(ManuscriptStates.START);
+                .isEqualTo(ManuscriptState.NEW);
     }
-    @Configuration
-    public  class Config {
-    }
+
+
+
+
 }

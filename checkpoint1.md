@@ -48,7 +48,7 @@ Author, related manuscript, time assigned, submission time, reviewers suggestion
 
 ### Class diagram
 
-![alt text](classDiagram.png)
+![class diagram](classDiagram.png)
 
 ### User classes and characteristics
 
@@ -88,10 +88,27 @@ Users with role author would be able to:
 
 **Unregistered users:**
 
-New users would be able to create new account. Role author will be automatically assigned.
+New users would be able to create new account. Author's role will be automatically assigned.
 
 ## What this app is not about
 
 The system does not provide access to manuscripts to subscribers.
 
 Once the manuscript was accepted for publication, the file is no longer accessible. Only details related to editorial work (information about authors, title, dates, reviews, status) are available.
+
+## Typical manuscript publication process    
+
+
+![manuscript publication process](manuscriptFlow.jpg)
+
+An image above shows a real life example of manuscript publication process.
+For this project though I will simplify the process, please see image below, just enough to meet the requirements of the assignment.
+
+![simplified chart](FlowChartSimplified.png)
+
+ Implemented will be only the functionalities of an Editor . Plus possibility to upload/download a file.
+ Editor will be able to
+ - assign manuscript for review
+ - make decision based on reviews  
+
+Manuscript status changes will be emailed to author, editor, board of directors.

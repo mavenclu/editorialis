@@ -1,6 +1,8 @@
 package cz.cvut.fel.ear.semestralka.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.lang.NonNull;
@@ -10,9 +12,14 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.Set;
 
+@Getter
+@Setter
+@RequiredArgsConstructor
 @MappedSuperclass
 public abstract class BaseUserEntity {
+    @Setter(AccessLevel.NONE)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private final Long userId;
@@ -20,13 +27,10 @@ public abstract class BaseUserEntity {
     @Version
     private Long version;
 
-    @NonNull
+    @NotNull
     @Email
     @Column(unique = true)
     private String email;
-    @NonNull
-    @NumberFormat(style = NumberFormat.Style.NUMBER)
-    private String phoneNumber;
     @NotNull
     @Size(min = 2, max = 20, message = "Name must contain at least 2 letters and at most 20 letters")
     private String firstName;
@@ -35,49 +39,19 @@ public abstract class BaseUserEntity {
     private String lastName;
     private final String name = firstName + " " + lastName;
 
-    private LocalDateTime lastUpdate;
+    @ElementCollection
+    @Column
+    private Set<Role> roles;
 
     protected BaseUserEntity() {
         userId = null;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
 
     public String getName() {
         return firstName + " " + lastName;
     }
+
+
 }

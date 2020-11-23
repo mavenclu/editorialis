@@ -16,7 +16,5 @@ public class ReviewService {
     }
 
 
-    public int getNumberOfReviewsInDelay(){
-        return reviewRepository.findByDateTimeAssignedBeforeAndDateTimeUploaded(LocalDateTime.now().minusDays(14), null).size();
-    }
+
 }

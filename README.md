@@ -4,6 +4,15 @@ checkpoint1 not ready for evaluation yet.
 
 ---
 
+## Progress so Far  
+
+- `domain`, questions about annotations and relationships
+- `api/v1/mail/send` sends test email
+- Spring State Machine - configured, written service, tested. (controller yet to do)
+- `spring-data-rest` added
+
+
+
 ### Výsledné SRS však musí nutně obsahovat
 
 - [x] Pro jaké uživatele (druhy uživatelů) bude systém určen (je nutné mít alespoň 2 funkčně různé uživatele)

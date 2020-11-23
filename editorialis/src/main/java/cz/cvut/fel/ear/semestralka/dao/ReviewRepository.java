@@ -1,24 +1,21 @@
 package cz.cvut.fel.ear.semestralka.dao;
 
 import cz.cvut.fel.ear.semestralka.domain.Review;
-import cz.cvut.fel.ear.semestralka.domain.ReviewSuggestion;
+import cz.cvut.fel.ear.semestralka.domain.ReviewersSuggestion;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 @RepositoryRestResource
 public interface ReviewRepository extends PagingAndSortingRepository<Review, Long> {
 
-    Review findReviewByDocumentId(Long reviewId);
-    List<Review> findReviewsByManuscript_Title(String title);
-    List<Review> findReviewsByManuscript_DocumentId(long manuscriptId);
-    List<Review> findReviewsByReviewer_Name(String lastName);
-    List<Review> findReviewsByReviewer_UserId(long reviewerId);
-    List<Review> findReviewsByReviewSuggestion(ReviewSuggestion suggestion);
-    List<Review> findByDateTimeAssigned(LocalDateTime localDateTime);
-    List<Review> findByDateTimeAssignedBeforeAndDateTimeUploaded(LocalDateTime assigned, LocalDateTime uploaded);
 
+    Review findByReviewId(Long reviewId);
+    List<Review> findByManuscript_Title(String title);
+    List<Review> findByManuscript_ManuscriptId(long manuscriptId);
+    List<Review> findByReviewer_UserId(long reviewerId);
+    List<Review> findByReviewersSuggestion(ReviewersSuggestion suggestion);
+    List<Review> findAll();
 
 }
