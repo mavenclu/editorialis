@@ -99,7 +99,7 @@ Once the manuscript was accepted for publication, the file is no longer accessib
 ## Typical manuscript publication process    
 
 
-![manuscript publication process](manuscriptFlow.jpg)
+![manuscript publication process](manuscriptFlow.JPG)
 
 An image above shows a real life example of manuscript publication process.
 For this project though I will simplify the process, please see image below, just enough to meet the requirements of the assignment.
