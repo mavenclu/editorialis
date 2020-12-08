@@ -27,7 +27,7 @@ public class ManuscriptStateChangeInterceptor extends StateMachineInterceptorAda
                                Transition<ManuscriptState, ManuscriptEvent> transition, StateMachine<ManuscriptState, ManuscriptEvent> stateMachine) {
 
         if (message != null)
-            Optional.ofNullable((Long) message.getHeaders().getOrDefault(ManuscriptServiceImpl.MANUSCRIPT_ID_HEADER, -1L))
+            Optional.ofNullable((Long) message.getHeaders().getOrDefault(ManuscriptStateMachineServiceImpl.MANUSCRIPT_ID_HEADER, -1L))
                     .ifPresent(manuscriptId -> {
                         Manuscript man = manRepository.findByManuscriptId(manuscriptId);
                         man.setManuscriptStatus(state.getId());

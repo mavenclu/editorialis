@@ -22,7 +22,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class ManuscriptServiceImpl implements ManuscriptService {
+public class ManuscriptStateMachineServiceImpl implements ManuscriptStateMachineService {
     public static final String MANUSCRIPT_ID_HEADER = "manuscript_id";
     private final ManuscriptStateChangeInterceptor manuscriptStateChangeInterceptor;
 
@@ -35,10 +35,10 @@ public class ManuscriptServiceImpl implements ManuscriptService {
     private ReviewRepository reviewRepository;
 
     @Autowired
-    public ManuscriptServiceImpl(ManuscriptStateChangeInterceptor manuscriptStateChangeInterceptor,
-                                 ManuscriptRepository manuscriptRepository, EditorRepository editorRepository,
-                                 StateMachineFactory<ManuscriptState, ManuscriptEvent> factory,
-                                 ReviewerRepository reviewerRepository, ReviewRepository reviewRepository) {
+    public ManuscriptStateMachineServiceImpl(ManuscriptStateChangeInterceptor manuscriptStateChangeInterceptor,
+                                             ManuscriptRepository manuscriptRepository, EditorRepository editorRepository,
+                                             StateMachineFactory<ManuscriptState, ManuscriptEvent> factory,
+                                             ReviewerRepository reviewerRepository, ReviewRepository reviewRepository) {
         this.manuscriptStateChangeInterceptor = manuscriptStateChangeInterceptor;
         this.manuscriptRepository = manuscriptRepository;
         this.editorRepository = editorRepository;
@@ -134,13 +134,13 @@ public class ManuscriptServiceImpl implements ManuscriptService {
 
     @Transactional
     @Override
-    public StateMachine<ManuscriptState, ManuscriptEvent> completeReview(Long manuscriptId, Long reviewId) throws IllegalArgumentException {
+    public StateMachine<ManuscriptState, ManuscriptEvent> completeReview(Long manuscriptId, Long reviewerId) throws IllegalArgumentException {
         StateMachine<ManuscriptState, ManuscriptEvent> sm = null;
         try {
             sm = build(manuscriptId);
             Manuscript man = manuscriptRepository.findByManuscriptId(manuscriptId);
             man.setManuscriptStatus(ManuscriptState.PRINCIPAL_REVIEW);
-            Review review = reviewRepository.findByReviewId(reviewId);
+            Review review = reviewRepository.findByManuscriptAndReviewer(manuscriptRepository.findByManuscriptId(manuscriptId), reviewerRepository.findByUserId(reviewerId));
             List<Review> reviews = new ArrayList<>();
             reviews.add(review);
             man.setReviews(reviews);

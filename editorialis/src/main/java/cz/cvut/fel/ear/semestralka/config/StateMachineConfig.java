@@ -1,13 +1,17 @@
 package cz.cvut.fel.ear.semestralka.config;
 
+import cz.cvut.fel.ear.semestralka.config.actions.AssignToEditor;
+import cz.cvut.fel.ear.semestralka.domain.Manuscript;
 import cz.cvut.fel.ear.semestralka.domain.ManuscriptEvent;
 import cz.cvut.fel.ear.semestralka.domain.ManuscriptState;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.Message;
 import org.springframework.statemachine.StateMachine;
+import org.springframework.statemachine.action.Action;
 import org.springframework.statemachine.config.*;
 import org.springframework.statemachine.config.builders.StateMachineConfigurationConfigurer;
 import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
@@ -22,12 +26,13 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+@RequiredArgsConstructor
 @Configuration
 @EnableStateMachineFactory
 public class StateMachineConfig extends StateMachineConfigurerAdapter<ManuscriptState, ManuscriptEvent> {
 
     private final Logger log = LoggerFactory.getLogger(StateMachineConfig.class);
+    private final Action<ManuscriptState, ManuscriptEvent> assigToEditor;
 
 //    @Bean
 //    public StateMachine<ManuscriptState, ManuscriptEvent> buildMachine() throws Exception{

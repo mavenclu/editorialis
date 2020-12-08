@@ -23,7 +23,6 @@ public class Manuscript {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
-    @NotNull
     private Author sender;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})

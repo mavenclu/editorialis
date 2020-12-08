@@ -1,5 +1,6 @@
 package cz.cvut.fel.ear.semestralka.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -12,17 +13,16 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
+@IdClass(ReviewId.class)
 @Table(name = "reviews")
 public class Review {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private long reviewId;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manuscript_id")
     private Manuscript manuscript;
 
+    @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reviewer_id")
     private Reviewer reviewer;

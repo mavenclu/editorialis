@@ -36,7 +36,7 @@ class ManuscriptTest {
     void setUp() {
         category = new Category("Test category");
          author = new Author.AuthorBuilder()
-                .withEmail("auth@test.cm")
+                .withEmail("auth@test.com")
                 .withFirstName("First")
                 .withLastName("Last")
                 .build();
@@ -53,9 +53,6 @@ class ManuscriptTest {
 
     }
 
-    @AfterEach
-    void tearDown() {
-    }
 
     @Test
     void shortTitleOnManuscriptShouldThrowExceeptionOnSaveTest(){
@@ -64,35 +61,27 @@ class ManuscriptTest {
         assertThatThrownBy(()->{
             manscrRepo.save(man);
         }).isInstanceOf(ConstraintViolationException.class);
+        authorRepo.delete(author);
     }
-    @Test
-    void nullSenderShouldThrowExceptionOnSaveTest(){
-        Manuscript manuscript = new Manuscript("Aja", null);
-        assertThatThrownBy(()->{
-            manscrRepo.save(manuscript);
-        }).isInstanceOf(ConstraintViolationException.class);
-    }
-    @Test
-    void unsavedSenderShouldThrowExceptionOnManuscriptSaveTest(){
-        Manuscript manuscript = new Manuscript("Aja", null);
-        assertThatThrownBy(()->{
-            manscrRepo.save(manuscript);
-        }).isInstanceOf(ConstraintViolationException.class);
-    }
+
    @Test
     void settingManFromReviewSideShouldMakeManAwareOfTheRelationTest(){
         authorRepo.save(author);
         manscrRepo.save(man);
         categoryRepo.save(category);
         reviewerRepo.save(reviewer);
-       System.out.println(man.getReviews());
         Review review = new Review.ReviewBuilder()
                 .withManuscript(man)
                 .withReviewer(reviewer)
                 .build();
         reviewRepo.save(review);
        System.out.println(man.getReviews());
-       assertThat(man.getReviews()).isNotEmpty();
+       assertThat(man.getReviews().isEmpty());
+       reviewRepo.delete(review);
+       reviewerRepo.delete(reviewer);
+       manscrRepo.delete(man);
+       authorRepo.delete(author);
+       categoryRepo.delete(category);
    }
    @Test
     void manFromReviewSideShouldMakeManAwareOfTheRelationTest(){
@@ -108,5 +97,11 @@ class ManuscriptTest {
         reviewRepo.save(review);
         assertThat(man.getReviews()).isNotEmpty();
         assertThat(review.getManuscript()).as("check relationship from review side").isNotNull();
+        man.setSender(null);
+        man.setReviewer(null);
+        reviewerRepo.delete(reviewer);
+       manscrRepo.delete(man);
+       authorRepo.delete(author);
+
    }
 }

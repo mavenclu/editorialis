@@ -1,26 +1,20 @@
 package cz.cvut.fel.ear.semestralka.service;
 
-import antlr.TokenStreamRewriteEngine;
 import cz.cvut.fel.ear.semestralka.dao.*;
 import cz.cvut.fel.ear.semestralka.domain.*;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvFileSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.statemachine.StateMachine;
-import org.assertj.core.api.Assertions.*;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.management.GarbageCollectorMXBean;
 @SpringBootTest
-class ManuscriptServiceImplTest {
+class ManuscriptStateMachineServiceImplTest {
     @Autowired
-    private ManuscriptService manscrService;
+    private ManuscriptStateMachineService manscrService;
     @Autowired
     private ManuscriptRepository manscrRepo;
     @Autowired
@@ -182,5 +176,13 @@ class ManuscriptServiceImplTest {
 
     @Test
     void acceptManuscript() {
+    }
+
+    @Test
+    void assigneToEditorActionTest() throws Exception {
+        Manuscript savedMan = manscrService.newManuscript(manuscript);
+        StateMachine<ManuscriptState, ManuscriptEvent> machine = manscrService.assignManuscriptToEditor(savedMan, editor);
+
+
     }
 }
