@@ -21,7 +21,7 @@ public class Reviewer extends BaseUserEntity {
     @OneToMany(mappedBy = "reviewer", cascade = CascadeType.PERSIST)
     private List<Review> reviews = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 

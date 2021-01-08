@@ -2,14 +2,14 @@ package cz.cvut.fel.ear.semestralka.domain;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -17,26 +17,15 @@ import java.util.Set;
 @Table(name = "authors")
 public class Author extends BaseUserEntity {
 
-    @OneToMany(mappedBy = "sender", cascade = CascadeType.PERSIST)
-    private List<Manuscript> submittedManuscripts = new ArrayList<>();
-
     @ManyToMany(mappedBy = "authors", cascade = CascadeType.PERSIST)
-    private List<Manuscript> authoredManuscripts = new ArrayList<>();
+    private List<Manuscript> manuscripts;
 
     protected Author() {
         super();
     }
 
-    public void addSubmittedManuscript(Manuscript manuscript){
-        submittedManuscripts.add(manuscript);
-    }
-    public void addAuthoredManuscript(Manuscript manuscript){
-        authoredManuscripts.add(manuscript);
-    }
-
     public static class AuthorBuilder {
-        private List<Manuscript> submittedManuscripts = new ArrayList<>();
-        private List<Manuscript> authoredManuscripts = new ArrayList<>();
+        private List<Manuscript> authoredManuscripts;
         private String email;
         private String firstName;
         private String lastName;
@@ -45,13 +34,7 @@ public class Author extends BaseUserEntity {
         public AuthorBuilder() {
         }
 
-        public AuthorBuilder withSubmittedManuscripts(List<Manuscript> submitted) {
-            this.submittedManuscripts = submitted;
-            return this;
-        }
-
-
-        public AuthorBuilder withAuthoredManuscripts(List<Manuscript> authored) {
+        public AuthorBuilder withManuscripts(List<Manuscript> authored) {
             this.authoredManuscripts = authored;
             return this;
         }
@@ -74,8 +57,7 @@ public class Author extends BaseUserEntity {
 
         public Author build() {
             Author author = new Author();
-            author.setSubmittedManuscripts(submittedManuscripts);
-            author.setAuthoredManuscripts(authoredManuscripts);
+            author.setManuscripts(authoredManuscripts);
             author.setEmail(email);
             author.setFirstName(firstName);
             author.setLastName(lastName);

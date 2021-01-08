@@ -6,7 +6,7 @@ public enum Role {
     AUTHOR("author"),
     EDITOR("editor"),
     REVIEWER("reviewer"),
-    HEAD_EDITOR("head editor"),
+    HEAD_EDITOR("head ditor"),
     DIRECTOR("direcotr");
 
     public final String label;

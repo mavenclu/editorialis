@@ -16,14 +16,13 @@ import java.time.LocalDateTime;
 @IdClass(ReviewId.class)
 @Table(name = "reviews")
 public class Review {
-
     @Id
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "manuscript_id")
     private Manuscript manuscript;
 
     @Id
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "reviewer_id")
     private Reviewer reviewer;
 

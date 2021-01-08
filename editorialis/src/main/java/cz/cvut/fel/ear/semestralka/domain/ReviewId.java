@@ -1,5 +1,11 @@
 package cz.cvut.fel.ear.semestralka.domain;
 
+import lombok.Getter;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.IdClass;
+import javax.persistence.PrimaryKeyJoinColumn;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -7,7 +13,7 @@ public class ReviewId implements Serializable {
     private Manuscript manuscript;
     private Reviewer reviewer;
 
-    public ReviewId(){};
+    public ReviewId(ReviewId reviewId){};
 
     public ReviewId(Manuscript manuscript, Reviewer reviewer) {
         this.manuscript = manuscript;

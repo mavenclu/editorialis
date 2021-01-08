@@ -15,12 +15,15 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-@RequiredArgsConstructor
 @Component
 public class ManuscriptStateChangeInterceptor extends StateMachineInterceptorAdapter<ManuscriptState, ManuscriptEvent> {
 
+    private final ManuscriptService manService;
+
     @Autowired
-    private final ManuscriptRepository manRepository;
+    public ManuscriptStateChangeInterceptor(ManuscriptService manService) {
+        this.manService = manService;
+    }
 
     @Override
     public void preStateChange(State<ManuscriptState, ManuscriptEvent> state, Message<ManuscriptEvent> message,
@@ -29,9 +32,9 @@ public class ManuscriptStateChangeInterceptor extends StateMachineInterceptorAda
         if (message != null)
             Optional.ofNullable((Long) message.getHeaders().getOrDefault(ManuscriptStateMachineServiceImpl.MANUSCRIPT_ID_HEADER, -1L))
                     .ifPresent(manuscriptId -> {
-                        Manuscript man = manRepository.findByManuscriptId(manuscriptId);
+                        Manuscript man = manService.findById(manuscriptId);
                         man.setManuscriptStatus(state.getId());
-                        manRepository.save(man);
+                        manService.save(man);
                     });
     }
 }

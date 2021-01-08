@@ -39,9 +39,8 @@ public abstract class BaseUserEntity {
     private String lastName;
     private final String name = firstName + " " + lastName;
 
-    @ElementCollection
-    @Column
-    private Set<Role> roles;
+    @Enumerated(EnumType.STRING)
+    private Role usersRole;
 
     protected BaseUserEntity() {
         userId = null;

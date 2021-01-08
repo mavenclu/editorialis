@@ -10,7 +10,6 @@ import java.util.Set;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
 @Entity
 @Table(name = "categories")
 public class Category {
@@ -27,12 +26,14 @@ public class Category {
     @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST)
     private Set<Editor> editors;
 
+    @OrderBy("onReview")
     @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST)
     private Set<Reviewer> reviewers;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST)
     private Set<Manuscript> manuscripts;
 
+    public Category(){};
 
     public Category(@NotNull @Size(min = 2, max = 30) String name) {
         this.name = name;

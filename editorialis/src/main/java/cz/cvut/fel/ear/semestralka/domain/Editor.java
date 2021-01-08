@@ -1,9 +1,9 @@
 package cz.cvut.fel.ear.semestralka.domain;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +14,11 @@ import java.util.List;
 @Table(name = "editors")
 public class Editor extends BaseUserEntity {
 
+    @OrderBy("manuscriptStatus")
     @OneToMany(mappedBy = "editor", cascade = CascadeType.PERSIST)
-    private List<Manuscript> managedManuscripts = new ArrayList<>();
+    private List<Manuscript> manuscripts;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
@@ -25,12 +26,12 @@ public class Editor extends BaseUserEntity {
         super();
     }
 
-    public void addManagedManuscript(Manuscript manuscript){
-        managedManuscripts.add(manuscript);
+    public void addManuscript(Manuscript man) {
+        manuscripts.add(man);
     }
 
     public static class EditorBuilder{
-        private List<Manuscript> managedManuscripts = new ArrayList<>();
+        private List<Manuscript> manuscripts1 = new ArrayList<>();
         private Category category;
         private String email;
         private String firstName;
@@ -39,8 +40,8 @@ public class Editor extends BaseUserEntity {
 
         public EditorBuilder(){}
 
-        public EditorBuilder withManagedManuscripts(List<Manuscript> manuscripts){
-            this.managedManuscripts = manuscripts;
+        public EditorBuilder withManuscripts(List<Manuscript> manuscripts){
+            this.manuscripts1 = manuscripts;
             return this;
         }
 
@@ -68,7 +69,7 @@ public class Editor extends BaseUserEntity {
         public Editor build(){
             Editor ed = new Editor();
             ed.setCategory(category);
-            ed.setManagedManuscripts(managedManuscripts);
+            ed.setManuscripts(manuscripts1);
             ed.setEmail(email);
             ed.setFirstName(firstName);
             ed.setLastName(lastName);

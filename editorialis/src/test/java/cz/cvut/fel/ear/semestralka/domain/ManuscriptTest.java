@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.validation.ConstraintViolationException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 
 import static org.assertj.core.api.Assertions.*;
@@ -41,7 +44,7 @@ class ManuscriptTest {
                 .withLastName("Last")
                 .build();
           man = new Manuscript.ManuscriptBuilder()
-                .withSender(author)
+                .withAuthors(List.of(author))
                 .withTitle("My new fancy manuscript")
                 .build();
           reviewer = new Reviewer.ReviewerBuilder()
@@ -57,7 +60,7 @@ class ManuscriptTest {
     @Test
     void shortTitleOnManuscriptShouldThrowExceeptionOnSaveTest(){
         authorRepo.save(author);
-        Manuscript  man = new Manuscript("Aj", author);
+        Manuscript  man = new Manuscript("Aj", List.of(author));
         assertThatThrownBy(()->{
             manscrRepo.save(man);
         }).isInstanceOf(ConstraintViolationException.class);
@@ -97,7 +100,6 @@ class ManuscriptTest {
         reviewRepo.save(review);
         assertThat(man.getReviews()).isNotEmpty();
         assertThat(review.getManuscript()).as("check relationship from review side").isNotNull();
-        man.setSender(null);
         man.setReviewer(null);
         reviewerRepo.delete(reviewer);
        manscrRepo.delete(man);

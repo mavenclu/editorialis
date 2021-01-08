@@ -11,31 +11,50 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.statemachine.StateMachine;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @SpringBootTest
 class ManuscriptStateMachineServiceImplTest {
     @Autowired
-    private ManuscriptStateMachineService manscrService;
+    private final ManuscriptStateMachineService machineServ;
+
     @Autowired
-    private ManuscriptRepository manscrRepo;
+    private final EditorService editorServ;
     @Autowired
-    private EditorRepository editorRepo;
+    private final CategoryService catServ;
     @Autowired
-    private CategoryRepository categoryRepo;
+    private final AuthorRepository authorRepo;
     @Autowired
-    private AuthorRepository authorRepo;
+    private final ReviewerRepository reviewerRepo;
     @Autowired
-    private ReviewerRepository reviewerRepo;
+    private final ManuscriptService manServ;
+
 
     private Editor editor;
     private Category category;
-    private Author sender;
     private Manuscript manuscript;
     private Reviewer reviewer;
+    private Author author;
+
+    @Autowired
+    ManuscriptStateMachineServiceImplTest(ManuscriptStateMachineService machineServ, EditorService editorServ, CategoryService catServ, AuthorRepository authorRepo, ReviewerRepository reviewerRepo, ManuscriptService manServ) {
+        this.machineServ = machineServ;
+        this.editorServ = editorServ;
+        this.catServ = catServ;
+        this.authorRepo = authorRepo;
+        this.reviewerRepo = reviewerRepo;
+        this.manServ = manServ;
+    }
 
 
     @BeforeEach
     void setUp(){
         category = new Category("Test Category");
+        author = new Author.AuthorBuilder()
+                .withEmail("author@test.com")
+                .withFirstName("Petr")
+                .withLastName("Novotny")
+                .build();
 
         editor  = new Editor.EditorBuilder()
                 .withFirstName("Jan")
@@ -43,11 +62,7 @@ class ManuscriptStateMachineServiceImplTest {
                 .withEmail("editor@test.com")
                 .withCategory(category)
                 .build();
-        sender = new Author.AuthorBuilder()
-                .withFirstName("Thomas")
-                .withLastName("Klein")
-                .withEmail("sender@test.com")
-                .build();
+
         reviewer = new Reviewer.ReviewerBuilder()
                 .withFirstName("Anne")
                 .withLastName("Shirley")
@@ -57,15 +72,15 @@ class ManuscriptStateMachineServiceImplTest {
 
         manuscript = new Manuscript.ManuscriptBuilder()
                 .withTitle("My fancy new manuscript.")
-                .withSender(sender)
+                .withAuthors(List.of(author))
                 .withCategory(category)
                 .build();
 
-        categoryRepo.save(category);
+        catServ.save(category);
         reviewerRepo.save(reviewer);
-        authorRepo.save(sender);
-        editorRepo.save(editor);
-        manscrRepo.save(manuscript);
+        editorServ.save(editor);
+        authorRepo.save(author);
+        manServ.save(manuscript);
     }
 
     @AfterEach
@@ -74,17 +89,16 @@ class ManuscriptStateMachineServiceImplTest {
 //        reviewer.setEmail(null);
 //        sender.setEmail(null);
 //        category.setName(null);
-        manscrRepo.delete(manuscript);
-        editorRepo.delete(editor);
-        authorRepo.delete(sender);
+        manServ.delete(manuscript);
+        editorServ.delete(editor);
         reviewerRepo.delete(reviewer);
-        categoryRepo.delete(category);
+        catServ.delete(category);
     }
 
 
     @Test
     void newManuscriptShouldSetStatusToNew() {
-        Manuscript savedMan = manscrService.newManuscript(manuscript);
+        Manuscript savedMan = machineServ.newManuscript(manuscript);
         org.assertj.core.api.Assertions.assertThat(savedMan.getManuscriptStatus())
                 .as("check that service changed state of manuscript")
                 .isEqualTo(ManuscriptState.NEW);
@@ -93,9 +107,9 @@ class ManuscriptStateMachineServiceImplTest {
     @Transactional
     @Test
     void assignManuscriptToEditorViaIDs() throws Exception {
-        Manuscript savedMan = manscrService.newManuscript(manuscript);
-        StateMachine<ManuscriptState, ManuscriptEvent> machine = manscrService.assignManuscriptToEditor(savedMan.getManuscriptId(), editor.getUserId());
-        Manuscript assignedMan = manscrRepo.findByManuscriptId(savedMan.getManuscriptId());
+        Manuscript savedMan = machineServ.newManuscript(manuscript);
+        StateMachine<ManuscriptState, ManuscriptEvent> machine = machineServ.assignManuscriptToEditor(savedMan.getManuscriptId(), editor.getUserId());
+        Manuscript assignedMan = manServ.findById(savedMan.getManuscriptId());
         org.assertj.core.api.Assertions.assertThat(machine.getState().getId())
                 .as("check  machine state")
                 .isEqualTo(ManuscriptState.PENDING);
@@ -107,9 +121,9 @@ class ManuscriptStateMachineServiceImplTest {
     @Transactional
     @Test
     void assignManuscriptToEditorViaObjects() throws Exception {
-        Manuscript savedMan = manscrService.newManuscript(manuscript);
-        StateMachine<ManuscriptState, ManuscriptEvent> machine = manscrService.assignManuscriptToEditor(savedMan, editor);
-        Manuscript assignedMan = manscrRepo.findByManuscriptId(savedMan.getManuscriptId());
+        Manuscript savedMan = machineServ.newManuscript(manuscript);
+        StateMachine<ManuscriptState, ManuscriptEvent> machine = machineServ.assignManuscriptToEditor(savedMan, editor);
+        Manuscript assignedMan = manServ.findById(savedMan.getManuscriptId());
         org.assertj.core.api.Assertions.assertThat(assignedMan.getManuscriptStatus())
                 .as("check manuscript state")
                 .isEqualTo(ManuscriptState.PENDING);
@@ -121,10 +135,10 @@ class ManuscriptStateMachineServiceImplTest {
     @Transactional
     @Test
     void testAssignManuscriptToReviewerShouldChangeStateToPeerReviewTest() throws Exception {
-        Manuscript savedMan = manscrService.newManuscript(manuscript);
-        StateMachine<ManuscriptState, ManuscriptEvent> machineEdit = manscrService.assignManuscriptToEditor(savedMan.getManuscriptId(), editor.getUserId());
-        Manuscript assignedMan = manscrRepo.findByManuscriptId(savedMan.getManuscriptId());
-        StateMachine<ManuscriptState, ManuscriptEvent> machineRev = manscrService.assignToReviewer(assignedMan.getManuscriptId(), reviewer.getUserId());
+        Manuscript savedMan = machineServ.newManuscript(manuscript);
+        StateMachine<ManuscriptState, ManuscriptEvent> machineEdit = machineServ.assignManuscriptToEditor(savedMan.getManuscriptId(), editor.getUserId());
+        Manuscript assignedMan = manServ.findById(savedMan.getManuscriptId());
+        StateMachine<ManuscriptState, ManuscriptEvent> machineRev = machineServ.assignToReviewer(assignedMan.getManuscriptId(), reviewer.getUserId());
         Assertions.assertThat(machineRev.getState().getId())
                 .as("check machine state")
                 .isEqualTo(ManuscriptState.PEER_REVIEW);
@@ -137,10 +151,10 @@ class ManuscriptStateMachineServiceImplTest {
 
     @Test
     void rejectManuscriptShouldChangeStateToRejectedAndClosedToTrueTest() throws Exception{
-        Manuscript savedMan = manscrService.newManuscript(manuscript);
-        StateMachine<ManuscriptState, ManuscriptEvent> assignedMachine = manscrService.assignManuscriptToEditor(savedMan.getManuscriptId(), editor.getUserId());
-        Manuscript assignedMan = manscrRepo.findByManuscriptId(savedMan.getManuscriptId());
-        StateMachine<ManuscriptState, ManuscriptEvent> rejectedMachine = manscrService.rejectManuscript(assignedMan.getManuscriptId());
+        Manuscript savedMan = machineServ.newManuscript(manuscript);
+        StateMachine<ManuscriptState, ManuscriptEvent> assignedMachine = machineServ.assignManuscriptToEditor(savedMan.getManuscriptId(), editor.getUserId());
+        Manuscript assignedMan = manServ.findById(savedMan.getManuscriptId());
+        StateMachine<ManuscriptState, ManuscriptEvent> rejectedMachine = machineServ.rejectManuscript(assignedMan.getManuscriptId());
         Assertions.assertThat(rejectedMachine.getState().getId())
                .as("check machine state")
                 .isEqualTo(ManuscriptState.REJECTED);
@@ -153,12 +167,12 @@ class ManuscriptStateMachineServiceImplTest {
 
     @Test
     void completeReviewShouldChangeStateToPrincipalReview() throws Exception {
-        Manuscript savedMan = manscrService.newManuscript(manuscript);
-        StateMachine<ManuscriptState, ManuscriptEvent> machineEdit = manscrService.assignManuscriptToEditor(savedMan.getManuscriptId(), editor.getUserId());
-        Manuscript assignedMan = manscrRepo.findByManuscriptId(savedMan.getManuscriptId());
-        StateMachine<ManuscriptState, ManuscriptEvent> machineRev = manscrService.assignToReviewer(assignedMan.getManuscriptId(), reviewer.getUserId());
-        Manuscript reviewedMan = manscrRepo.findByManuscriptId(assignedMan.getManuscriptId());
-        StateMachine<ManuscriptState, ManuscriptEvent> reviewedMachine = manscrService.completeReview(reviewedMan.getManuscriptId(), reviewer.getUserId());
+        Manuscript savedMan = machineServ.newManuscript(manuscript);
+        StateMachine<ManuscriptState, ManuscriptEvent> machineEdit = machineServ.assignManuscriptToEditor(savedMan.getManuscriptId(), editor.getUserId());
+        Manuscript assignedMan = manServ.findById(savedMan.getManuscriptId());
+        StateMachine<ManuscriptState, ManuscriptEvent> machineRev = machineServ.assignToReviewer(assignedMan.getManuscriptId(), reviewer.getUserId());
+        Manuscript reviewedMan = manServ.findById(assignedMan.getManuscriptId());
+        StateMachine<ManuscriptState, ManuscriptEvent> reviewedMachine = machineServ.completeReview(reviewedMan.getManuscriptId(), reviewer.getUserId());
         Assertions.assertThat(reviewedMachine.getState().getId())
                 .as("check machine state")
                 .isEqualTo(ManuscriptState.PEER_REVIEW);
@@ -180,8 +194,8 @@ class ManuscriptStateMachineServiceImplTest {
 
     @Test
     void assigneToEditorActionTest() throws Exception {
-        Manuscript savedMan = manscrService.newManuscript(manuscript);
-        StateMachine<ManuscriptState, ManuscriptEvent> machine = manscrService.assignManuscriptToEditor(savedMan, editor);
+        Manuscript savedMan = machineServ.newManuscript(manuscript);
+        StateMachine<ManuscriptState, ManuscriptEvent> machine = machineServ.assignManuscriptToEditor(savedMan, editor);
 
 
     }

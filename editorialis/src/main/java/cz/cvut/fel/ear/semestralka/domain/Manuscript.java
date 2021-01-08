@@ -6,6 +6,8 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Entity
@@ -21,32 +23,28 @@ public class Manuscript {
     @Pattern(regexp = "[A-Za-z0-9 _.,!\"'/$]*", message = "Title should contain only letetrs, numbers and punctuation.")
     private String title;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id")
-    private Author sender;
-
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "manuscript_authors",
             joinColumns = @JoinColumn(name = "manuscript_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id"))
-    private List<Author> authors = new ArrayList<>();
+    private List<Author> authors;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "editor_id")
     private Editor editor;
 
     @OneToMany(mappedBy = "manuscript", cascade = CascadeType.PERSIST)
     private List<Review> reviews = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
     @Enumerated(EnumType.STRING)
     private ManuscriptState manuscriptStatus;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "reviewer_id")
     private Reviewer reviewer;
 
@@ -70,9 +68,9 @@ public class Manuscript {
         super();
     }
 
-    public Manuscript(@NotNull @Size(min = 3, max = 100) @Pattern(regexp = "^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$", message = "pro popis jsou dovolene pouze znaky pismena a cislice") String title, @NotNull Author sender) {
+    public Manuscript(@NotNull @Size(min = 3, max = 100) @Pattern(regexp = "^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$", message = "pro popis jsou dovolene pouze znaky pismena a cislice") String title, @NotNull List<Author> authors) {
         this.title = title;
-        this.sender = sender;
+        this.authors = new ArrayList<>(authors);;
         this.closed = false;
         this.reviewed = false;
     }
@@ -110,14 +108,6 @@ public class Manuscript {
 
     public void setTitle(@NotNull @Size(min=3) String title) {
         this.title = title;
-    }
-
-    public Author getSender() {
-        return sender;
-    }
-
-    public void setSender(Author sender) {
-        this.sender = sender;
     }
 
     public List<Author> getAuthors() {
@@ -188,10 +178,9 @@ public class Manuscript {
 
     public static class ManuscriptBuilder{
         private String title;
-        private Author sender;
-        private List<Author> authors = new ArrayList<>();
+        private List<Author> authors;
         private Editor editor;
-        private List<Review> reviews = new ArrayList<>();
+        private List<Review> reviews;
         private Category category;
         private ManuscriptState manuscriptStatus;
         private boolean closed;
@@ -204,13 +193,9 @@ public class Manuscript {
             return this;
         }
 
-        public ManuscriptBuilder withSender(Author sender){
-            this.sender = sender;
-            return this;
-        }
 
         public ManuscriptBuilder withAuthors(List<Author> authors){
-            this.authors = authors;
+            this.authors = new ArrayList<>(authors);
             return this;
         }
 
@@ -220,7 +205,7 @@ public class Manuscript {
         }
 
         public ManuscriptBuilder withReviews(List<Review> rev){
-            this.reviews = rev;
+            this.reviews = new ArrayList<>(rev);
             return this;
         }
 
@@ -247,7 +232,6 @@ public class Manuscript {
         public Manuscript build(){
             Manuscript man = new Manuscript();
             man.setTitle(title);
-            man.setSender(sender);
             man.setAuthors(authors);
             man.setEditor(editor);
             man.setReviews(reviews);
