@@ -1,18 +1,10 @@
 package cz.cvut.fel.ear.semestralka.web.controller;
 
-import cz.cvut.fel.ear.semestralka.domain.MailObject;
 import cz.cvut.fel.ear.semestralka.service.EmailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1")

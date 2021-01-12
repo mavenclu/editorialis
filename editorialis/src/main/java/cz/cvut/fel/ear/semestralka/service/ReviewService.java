@@ -13,7 +13,8 @@ import java.util.Optional;
 
 interface ReviewService {
 
-    Review findById(ReviewId id);
+
+
     Iterable<Review> findAll();
     Review save(Review review);
     void delete(Review review);

@@ -4,9 +4,10 @@ import cz.cvut.fel.ear.semestralka.domain.Editor;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.Optional;
-
+@CrossOrigin(origins="*")
 @RepositoryRestResource
 public interface EditorRepository extends CrudRepository<Editor, Long> {
 
@@ -23,5 +24,5 @@ public interface EditorRepository extends CrudRepository<Editor, Long> {
     void delete(Editor entity);
 
     Optional<Editor> findEditorByCategory_CategoryId(long id);
-
+    Optional<Editor> findByEmail(String email);
 }

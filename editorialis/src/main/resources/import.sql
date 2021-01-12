@@ -39,7 +39,7 @@ insert into reviewers (first_Name, last_Name, email, category_id, on_Review) val
 
 
 
-insert into editors (first_Name, last_Name, email, category_id) values ('Zachary', 'Feinstein', 'zach.feinstein@example.com', 1)
+insert into editors (first_Name, last_Name, email, category_id, password) values ('Zachary', 'Feinstein', 'editor.editorialis@example.com', 1, '$2y$10$U6g6Ymv9sIfa.vWFeu/wFus9cL1ZsN.z3N0rm4ziqy2EwjMEbW4iG')
 insert into editors (first_Name, last_Name, email, category_id) values ('Leslie', 'Greengard', 'leslie.greengard@example.com', 2)
 insert into editors (first_Name, last_Name, email, category_id) values ('Mark', 'Girolami', 'mark.girolami@example.com', 1)
 -- insert into editors (first_Name, last_Name, email, category_id) values ('Johannes', 'Wiesel', 'john.wiesel@example.com', 4)

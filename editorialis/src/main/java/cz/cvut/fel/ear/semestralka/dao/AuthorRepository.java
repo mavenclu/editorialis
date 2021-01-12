@@ -9,11 +9,13 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+@CrossOrigin(origins="*")
 @RepositoryRestResource
 public interface AuthorRepository extends CrudRepository<Author, Long> {
 

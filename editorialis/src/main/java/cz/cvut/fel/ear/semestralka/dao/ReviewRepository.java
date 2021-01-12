@@ -7,14 +7,13 @@ import cz.cvut.fel.ear.semestralka.domain.Reviewer;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+import javax.validation.constraints.NotNull;
 import java.util.Optional;
-
+@CrossOrigin(origins="*")
 @RepositoryRestResource
 public interface ReviewRepository extends CrudRepository<Review, ReviewId> {
-
-    @Override
-    Optional<Review> findById(ReviewId reviewId);
 
     @Override
     Iterable<Review> findAll();
@@ -25,13 +24,8 @@ public interface ReviewRepository extends CrudRepository<Review, ReviewId> {
     @Override
     void delete(Review entity);
 
-
-    @RestResource(path = "mansucriptsreviews")
     Iterable<Review> findAllByManuscript(Manuscript manuscript);
-
     Iterable<Review> findAllByReviewer(Reviewer reviewer);
-
     Optional<Review> findByManuscriptAndReviewer(Manuscript manuscript, Reviewer reviewer);
-
-
+    boolean existsByManuscriptAndReviewer(Manuscript manuscript, Reviewer reviewer);
 }

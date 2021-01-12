@@ -3,7 +3,6 @@ package cz.cvut.fel.ear.semestralka.service;
 import cz.cvut.fel.ear.semestralka.dao.ReviewRepository;
 import cz.cvut.fel.ear.semestralka.domain.Manuscript;
 import cz.cvut.fel.ear.semestralka.domain.Review;
-import cz.cvut.fel.ear.semestralka.domain.ReviewId;
 import cz.cvut.fel.ear.semestralka.domain.Reviewer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,14 +20,6 @@ public class ReviewServiceImpl implements ReviewService{
         this.rewRepo = rewRepo;
     }
 
-    @Override
-    public Review findById(ReviewId id) {
-        return rewRepo.findById(id).orElseThrow(
-                () ->{
-                    log.error("trying to find empty review.");
-                    throw new IllegalArgumentException("Could not find review with id: " + id);}
-        );
-    }
 
     @Override
     public Iterable<Review> findAll() {
@@ -37,11 +28,22 @@ public class ReviewServiceImpl implements ReviewService{
 
     @Override
     public Review save(Review review) {
-        return rewRepo.save(review);
+        Review rev = new Review();
+        rev.setReviewer(review.getReviewer());
+        rev.setManuscript(review.getManuscript());
+        return rewRepo.save(rev);
     }
 
     @Override
     public void delete(Review review) {
+        if (rewRepo.existsByManuscriptAndReviewer(review.getManuscript(), review.getReviewer())){
+            rewRepo.delete(review);
+        }else {
+            log.error("trying to delete empty review.");
+            throw new IllegalArgumentException("could not delete review with manuscript id: " +
+                    review.getManuscript().getManuscriptId() + " and review id: " +
+                    review.getReviewer().getUserId());
+        }
     }
 
     @Override

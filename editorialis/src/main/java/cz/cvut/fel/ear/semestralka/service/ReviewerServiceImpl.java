@@ -49,5 +49,12 @@ public class ReviewerServiceImpl implements ReviewerService{
         }
     }
 
+    @Override
+    public Reviewer findByEmail(String email) {
+        return reviewerRepo.findByEmail(email).orElseThrow(
+                () -> new IllegalArgumentException("could not find reviewer with email: " + email)
+        );
+    }
+
 
 }

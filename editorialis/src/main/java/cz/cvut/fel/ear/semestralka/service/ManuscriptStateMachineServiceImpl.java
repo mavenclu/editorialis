@@ -13,6 +13,8 @@ import org.springframework.statemachine.support.DefaultStateMachineContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 
 @RequiredArgsConstructor
 @Service
@@ -40,7 +42,7 @@ public class ManuscriptStateMachineServiceImpl implements ManuscriptStateMachine
         this.reviewerService = reviewerService;
     }
 
-
+    @Transactional
     @Override
     public Manuscript newManuscript(Manuscript manuscript) throws IllegalArgumentException {
         try {
@@ -62,7 +64,6 @@ public class ManuscriptStateMachineServiceImpl implements ManuscriptStateMachine
             sm = build(manuscriptId);
             Manuscript man = manService.findById(manuscriptId);
             man.setEditor(edService.findById(editorId));
-//            man.setManuscriptStatus(ManuscriptState.PENDING);
             sendEvent(manuscriptId, sm, ManuscriptEvent.manuscriptAssignedToEditor);
         } catch (IllegalArgumentException e) {
             logger.warn(e.getMessage());
@@ -80,7 +81,6 @@ public class ManuscriptStateMachineServiceImpl implements ManuscriptStateMachine
             sm = build(manuscript.getManuscriptId());
             Manuscript man = manService.findById(manuscript.getManuscriptId());
             man.setEditor(editor);
-//            man.setManuscriptStatus(ManuscriptState.PENDING);
             sendEvent(man.getManuscriptId(), sm, ManuscriptEvent.manuscriptAssignedToEditor);
         } catch (NullPointerException e) {
             logger.warn(e.getMessage());
@@ -96,7 +96,6 @@ public class ManuscriptStateMachineServiceImpl implements ManuscriptStateMachine
         try {
             sm = build(manuscriptId);
             Manuscript man = manService.findById(manuscriptId);
-//            man.setManuscriptStatus(ManuscriptState.REJECTED);
             man.setClosed(true);
             sendEvent(manuscriptId, sm, ManuscriptEvent.manuscriptRejected);
         } catch (IllegalArgumentException e) {
@@ -132,10 +131,7 @@ public class ManuscriptStateMachineServiceImpl implements ManuscriptStateMachine
         try {
             sm = build(manuscriptId);
             Manuscript man = manService.findById(manuscriptId);
-            man.setManuscriptStatus(ManuscriptState.PRINCIPAL_REVIEW);
-            ReviewId reviewId = new ReviewId(manService.findById(manuscriptId), reviewerService.findById(reviewerId));
-            Review review = reviewServ.findById(new ReviewId(reviewId));
-            man.addReview(review);
+//            man.setManuscriptStatus(ManuscriptState.PRINCIPAL_REVIEW);
             sendEvent(manuscriptId, sm, ManuscriptEvent.completedReview);
         } catch (IllegalArgumentException e) {
             logger.warn(e.getMessage());
@@ -151,8 +147,9 @@ public class ManuscriptStateMachineServiceImpl implements ManuscriptStateMachine
         try {
             sm = build(manuscriptId);
             Manuscript man = manService.findById(manuscriptId);
-            man.setManuscriptStatus(ManuscriptState.ACCEPTED);
+//            man.setManuscriptStatus(ManuscriptState.ACCEPTED);
             man.setClosed(true);
+//            man.getEventsSequence().setWhenAccepted(LocalDateTime.now());
             sendEvent(manuscriptId, sm, ManuscriptEvent.manuscriptAccepted);
         } catch (IllegalArgumentException e) {
             logger.warn(e.getMessage());

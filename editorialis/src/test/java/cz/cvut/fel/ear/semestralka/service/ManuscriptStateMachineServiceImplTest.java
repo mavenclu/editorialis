@@ -1,9 +1,9 @@
 package cz.cvut.fel.ear.semestralka.service;
 
-import cz.cvut.fel.ear.semestralka.dao.*;
 import cz.cvut.fel.ear.semestralka.domain.*;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,19 +15,13 @@ import java.util.List;
 
 @SpringBootTest
 class ManuscriptStateMachineServiceImplTest {
-    @Autowired
     private final ManuscriptStateMachineService machineServ;
-
-    @Autowired
     private final EditorService editorServ;
-    @Autowired
     private final CategoryService catServ;
-    @Autowired
-    private final AuthorRepository authorRepo;
-    @Autowired
-    private final ReviewerRepository reviewerRepo;
-    @Autowired
+    private final AuthorService authorServ;
+    private final ReviewerService reviewerServ;
     private final ManuscriptService manServ;
+    private final ReviewService reviewServ;
 
 
     private Editor editor;
@@ -35,18 +29,20 @@ class ManuscriptStateMachineServiceImplTest {
     private Manuscript manuscript;
     private Reviewer reviewer;
     private Author author;
+    private Review review;
 
     @Autowired
-    ManuscriptStateMachineServiceImplTest(ManuscriptStateMachineService machineServ, EditorService editorServ, CategoryService catServ, AuthorRepository authorRepo, ReviewerRepository reviewerRepo, ManuscriptService manServ) {
+    ManuscriptStateMachineServiceImplTest(ManuscriptStateMachineService machineServ, EditorService editorServ, CategoryService catServ, AuthorService authorServ, ReviewerService reviewerServ, ManuscriptService manServ, ReviewService reviewServ){
         this.machineServ = machineServ;
         this.editorServ = editorServ;
         this.catServ = catServ;
-        this.authorRepo = authorRepo;
-        this.reviewerRepo = reviewerRepo;
+        this.authorServ = authorServ;
+        this.reviewerServ = reviewerServ;
         this.manServ = manServ;
+        this.reviewServ = reviewServ;
     }
 
-
+    @Transactional
     @BeforeEach
     void setUp(){
         category = new Category("Test Category");
@@ -66,7 +62,7 @@ class ManuscriptStateMachineServiceImplTest {
         reviewer = new Reviewer.ReviewerBuilder()
                 .withFirstName("Anne")
                 .withLastName("Shirley")
-                .withEmail("reviewer@test.com")
+                .withEmail("reviewer.anne@test.com")
                 .withCategory(category)
                 .build();
 
@@ -75,14 +71,16 @@ class ManuscriptStateMachineServiceImplTest {
                 .withAuthors(List.of(author))
                 .withCategory(category)
                 .build();
+        review = new Review(manuscript, reviewer);
 
         catServ.save(category);
-        reviewerRepo.save(reviewer);
+        reviewerServ.save(reviewer);
         editorServ.save(editor);
-        authorRepo.save(author);
-        manServ.save(manuscript);
-    }
 
+        authorServ.save(author);
+//        manServ.save(manuscript);
+    }
+    @Transactional
     @AfterEach
     void tearDown(){
 //        editor.setEmail(null);
@@ -90,12 +88,14 @@ class ManuscriptStateMachineServiceImplTest {
 //        sender.setEmail(null);
 //        category.setName(null);
         manServ.delete(manuscript);
+//        reviewServ.delete(review);
+        authorServ.delete(author);
         editorServ.delete(editor);
-        reviewerRepo.delete(reviewer);
+        reviewerServ.delete(reviewer);
         catServ.delete(category);
     }
 
-
+    @Transactional
     @Test
     void newManuscriptShouldSetStatusToNew() {
         Manuscript savedMan = machineServ.newManuscript(manuscript);
@@ -148,7 +148,7 @@ class ManuscriptStateMachineServiceImplTest {
 
 
     }
-
+    @Transactional
     @Test
     void rejectManuscriptShouldChangeStateToRejectedAndClosedToTrueTest() throws Exception{
         Manuscript savedMan = machineServ.newManuscript(manuscript);
@@ -165,38 +165,57 @@ class ManuscriptStateMachineServiceImplTest {
 
     }
 
+    @Transactional
     @Test
     void completeReviewShouldChangeStateToPrincipalReview() throws Exception {
         Manuscript savedMan = machineServ.newManuscript(manuscript);
-        StateMachine<ManuscriptState, ManuscriptEvent> machineEdit = machineServ.assignManuscriptToEditor(savedMan.getManuscriptId(), editor.getUserId());
-        Manuscript assignedMan = manServ.findById(savedMan.getManuscriptId());
-        StateMachine<ManuscriptState, ManuscriptEvent> machineRev = machineServ.assignToReviewer(assignedMan.getManuscriptId(), reviewer.getUserId());
-        Manuscript reviewedMan = manServ.findById(assignedMan.getManuscriptId());
-        StateMachine<ManuscriptState, ManuscriptEvent> reviewedMachine = machineServ.completeReview(reviewedMan.getManuscriptId(), reviewer.getUserId());
-        Assertions.assertThat(reviewedMachine.getState().getId())
+        machineServ.assignManuscriptToEditor(savedMan.getManuscriptId(), editor.getUserId());
+        machineServ.assignToReviewer(savedMan.getManuscriptId(), reviewer.getUserId());
+        reviewServ.save(review);
+        machineServ.completeReview(savedMan.getManuscriptId(), reviewer.getUserId());
+
+        StateMachine<ManuscriptState, ManuscriptEvent> machine = machineServ.completeReview(savedMan.getManuscriptId(), reviewer.getUserId());
+
+        Assertions.assertThat(machine.getState().getId())
                 .as("check machine state")
-                .isEqualTo(ManuscriptState.PEER_REVIEW);
-        Assertions.assertThat(reviewedMan.getManuscriptStatus())
+                .isEqualTo(ManuscriptState.PRINCIPAL_REVIEW);
+        Assertions.assertThat(savedMan.getManuscriptStatus())
                 .as("check manuscript state")
-                .isEqualTo(ManuscriptState.PEER_REVIEW);
+                .isEqualTo(ManuscriptState.PRINCIPAL_REVIEW);
     }
 
     @Transactional
     @Test
-    void rejectAfterCompletedReviewsShouldChangeStateToRejectedAndClosedToTrueTest(){
-
-    }
-
-
-    @Test
-    void acceptManuscript() {
-    }
-
-    @Test
-    void assigneToEditorActionTest() throws Exception {
+    void rejectAfterCompletedReviewsShouldChangeStateToRejectedAndClosedToTrueTest() throws Exception {
         Manuscript savedMan = machineServ.newManuscript(manuscript);
-        StateMachine<ManuscriptState, ManuscriptEvent> machine = machineServ.assignManuscriptToEditor(savedMan, editor);
-
+        machineServ.assignManuscriptToEditor(savedMan.getManuscriptId(), editor.getUserId());
+        StateMachine<ManuscriptState, ManuscriptEvent> machine = machineServ.rejectManuscript(manuscript.getManuscriptId());
+        Assertions.assertThat(machine.getState().getId())
+                .as("check machine state")
+                .isEqualTo(ManuscriptState.REJECTED);
+        Assertions.assertThat(savedMan.getManuscriptStatus())
+                .as("check manuscript state")
+                .isEqualTo(ManuscriptState.REJECTED);
 
     }
+
+    @Transactional
+    @Test
+    void acceptManuscript() throws Exception {
+        Manuscript savedMan = machineServ.newManuscript(manuscript);
+        machineServ.assignManuscriptToEditor(savedMan.getManuscriptId(), editor.getUserId());
+        machineServ.assignToReviewer(savedMan.getManuscriptId(), reviewer.getUserId());
+        reviewServ.save(review);
+        machineServ.completeReview(savedMan.getManuscriptId(), reviewer.getUserId());
+        StateMachine<ManuscriptState, ManuscriptEvent> machine = machineServ.acceptManuscript(savedMan.getManuscriptId());
+        Assertions.assertThat(machine.getState().getId())
+                .as("check machine state")
+                .isEqualTo(ManuscriptState.ACCEPTED);
+        Assertions.assertThat(savedMan.getManuscriptStatus())
+                .as("check manuscript state")
+                .isEqualTo(ManuscriptState.ACCEPTED);
+    }
+
+
+
 }

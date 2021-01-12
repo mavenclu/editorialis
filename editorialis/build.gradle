@@ -13,23 +13,26 @@ repositories {
 
 
 dependencies {
+    compile "org.springframework.boot:spring-boot-starter-security"
+
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compile group: 'org.springframework.data', name: 'spring-data-rest-hal-browser', version: '3.3.6.RELEASE'
     implementation 'org.projectlombok:lombok'
     implementation 'org.apache.logging.log4j:log4j-core'
-    implementation 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
     implementation 'javax.validation:validation-api'
     implementation 'org.springframework.boot:spring-boot-starter-hateoas'
+//    compile group: 'org.springframework.hateoas', name: 'spring-hateoas', version: '1.2.2'
     compile group: 'org.springframework.statemachine', name: 'spring-statemachine-core', version: '2.2.0.RELEASE'
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     compile group: 'org.hibernate.validator', name: 'hibernate-validator', version: '6.1.6.Final'
-    compile group: 'org.springframework.data', name: 'spring-data-rest-webmvc', version: '3.4.1'
+//    compile group: 'org.springframework.data', name: 'spring-data-rest-webmvc', version: '3.4.1'
+    compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
+    compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 
     testCompile 'org.mockito:mockito-junit-jupiter'
     testCompile 'org.mockito:mockito-core'

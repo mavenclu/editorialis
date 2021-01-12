@@ -35,7 +35,7 @@ public class Manuscript {
     private Editor editor;
 
     @OneToMany(mappedBy = "manuscript", cascade = CascadeType.PERSIST)
-    private List<Review> reviews = new ArrayList<>();
+    private List<Review> reviews;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -64,15 +64,31 @@ public class Manuscript {
     @Column
     private boolean reviewed;
 
-    protected Manuscript() {
-        super();
-    }
-
-    public Manuscript(@NotNull @Size(min = 3, max = 100) @Pattern(regexp = "^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$", message = "pro popis jsou dovolene pouze znaky pismena a cislice") String title, @NotNull List<Author> authors) {
-        this.title = title;
-        this.authors = new ArrayList<>(authors);;
+    public Manuscript (){
         this.closed = false;
         this.reviewed = false;
+        this.reviews = new ArrayList<>();
+    }
+
+    public Manuscript(@NotNull @Size(min = 3, max = 100) @Pattern(regexp = "^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$", message = "pro popis jsou dovolene pouze znaky pismena a cislice") String title,
+                      @NotNull List<Author> authors,
+                      Category category) {
+        this.title = title;
+        this.authors = new ArrayList<>(authors);
+        this.category = category;
+        this.closed = false;
+        this.reviewed = false;
+        this.reviews = new ArrayList<>();
+        this.eventsSequence = new EventsSequence();
+    }
+
+    public  Manuscript(String tilte, List<Author> author) {
+        this.title = title;
+        this.authors = new ArrayList<>(authors);
+        this.closed = false;
+        this.reviewed = false;
+        this.reviews = new ArrayList<>();
+        this.eventsSequence = new EventsSequence();
     }
 
     public ManuscriptState getManuscriptStatus() {

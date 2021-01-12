@@ -1,5 +1,6 @@
 package cz.cvut.fel.ear.semestralka.service;
 
+import cz.cvut.fel.ear.semestralka.domain.BaseUserEntity;
 import cz.cvut.fel.ear.semestralka.domain.Category;
 import cz.cvut.fel.ear.semestralka.domain.Editor;
 import cz.cvut.fel.ear.semestralka.domain.Manuscript;
@@ -15,4 +16,5 @@ public interface EditorService {
     Editor findByCategory(Category category);
     Iterable<Manuscript> getManuscripts(Editor editor);
 
+    Editor findByEmail(String email);
 }

@@ -1,6 +1,5 @@
 package cz.cvut.fel.ear.semestralka.service;
 
-import cz.cvut.fel.ear.semestralka.dao.CategoryRepository;
 import cz.cvut.fel.ear.semestralka.dao.EditorRepository;
 import cz.cvut.fel.ear.semestralka.dao.ManuscriptRepository;
 import cz.cvut.fel.ear.semestralka.domain.Category;
@@ -10,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 
 @Service
 public class EditorServiceImpl implements EditorService{
@@ -51,7 +52,7 @@ public class EditorServiceImpl implements EditorService{
         Editor editor = findById(id);
         editorRepo.delete(editor);
     }
-
+    @Transactional
     public boolean addManuscript(Editor editor, Manuscript man) throws IllegalArgumentException {
         if (editorRepo.findById(editor.getUserId()).isPresent() && manRepo.findById(man.getManuscriptId()).isPresent()){
             editor.addManuscript(man);
@@ -77,6 +78,13 @@ public class EditorServiceImpl implements EditorService{
 
     public Iterable<Manuscript> getManuscripts(Editor editor){
         return manRepo.findAllByEditor(editor);
+    }
+
+    @Override
+    public Editor findByEmail(String email) {
+        return editorRepo.findByEmail(email).orElseThrow(
+                () ->  new IllegalArgumentException("could not find editor with email: " + email)
+        );
     }
 
 }

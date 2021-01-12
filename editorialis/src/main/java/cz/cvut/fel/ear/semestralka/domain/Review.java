@@ -33,9 +33,21 @@ public class Review {
     @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm:ss")
     private LocalDateTime whenUploaded;
 
-    protected Review() {
-        super();
+
+    public Review(Manuscript manuscript, Reviewer reviewer){
+        this.manuscript = manuscript;
+        this.reviewer = reviewer;
     }
+    public Review(Manuscript manuscript, Reviewer reviewer, ReviewersSuggestion suggestion){
+        this.manuscript = manuscript;
+        this.reviewer = reviewer;
+        this.reviewersSuggestion = suggestion;
+    }
+
+    public Review() {
+
+    }
+
 
     public static class ReviewBuilder{
         private Manuscript manuscript;
@@ -58,7 +70,7 @@ public class Review {
             return this;
         }
         public Review build(){
-            Review rew = new Review();
+            Review rew = new Review(manuscript, reviewer);
             rew.setManuscript(manuscript);
             rew.setReviewer(reviewer);
             rew.setReviewersSuggestion(reviewersSuggestion);
