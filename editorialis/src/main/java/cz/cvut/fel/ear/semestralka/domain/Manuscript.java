@@ -1,5 +1,7 @@
 package cz.cvut.fel.ear.semestralka.domain;
 
+import org.hibernate.annotations.Fetch;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;

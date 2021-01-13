@@ -24,6 +24,7 @@ public class Editor extends BaseUserEntity {
 
     protected Editor() {
         super();
+        this.setUsersRole(Role.EDITOR);
     }
 
     public void addManuscript(Manuscript man) {

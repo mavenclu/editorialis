@@ -23,7 +23,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         BaseUserEntity user = findUserService.findByEmail(username);
-        log.info("loaded user with username: " + user.getEmail() + " and password: " + user.getPassword());
+        log.info("loaded user with username: " + user.getEmail() + " and password: " + user.getPassword()
+            + " and roel: " + user.getUsersRole());
 
         if (user == null){
             log.error("user is null");

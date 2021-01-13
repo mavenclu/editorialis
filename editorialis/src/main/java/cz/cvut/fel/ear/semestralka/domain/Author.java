@@ -22,6 +22,7 @@ public class Author extends BaseUserEntity {
 
     protected Author() {
         super();
+        this.setUsersRole(Role.AUTHOR);
     }
 
     public static class AuthorBuilder {

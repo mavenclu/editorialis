@@ -2,7 +2,6 @@ package cz.cvut.fel.ear.semestralka.domain;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -19,7 +18,7 @@ import java.util.List;
 public class Reviewer extends BaseUserEntity {
 
     @OneToMany(mappedBy = "reviewer", cascade = CascadeType.PERSIST)
-    private List<Review> reviews = new ArrayList<>();
+    private List<Review> reviews ;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -35,6 +34,8 @@ public class Reviewer extends BaseUserEntity {
 
     protected Reviewer() {
         super();
+        this.setUsersRole(Role.REVIEWER);
+        reviews = new ArrayList<>();
     }
 
 
@@ -50,7 +51,8 @@ public class Reviewer extends BaseUserEntity {
         private String firstName;
         private String lastName;
 
-        public ReviewerBuilder(){}
+        public ReviewerBuilder(){
+        }
 
         public ReviewerBuilder withReviews(List<Review> reviews){
             this.reviews = reviews;
