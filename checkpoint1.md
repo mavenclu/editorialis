@@ -50,6 +50,10 @@ Author, related manuscript, time assigned, submission time, reviewers suggestion
 
 ![class diagram](classDiagram.png)
 
+DB tables
+
+![db tables](/img/dbTables.png)
+
 ### User classes and characteristics
 
 **Admin**
