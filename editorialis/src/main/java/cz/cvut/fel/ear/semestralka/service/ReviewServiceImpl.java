@@ -10,11 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ReviewServiceImpl implements ReviewService{
+public class ReviewServiceImpl implements ReviewService {
     private final Logger log = LoggerFactory.getLogger(ReviewServiceImpl.class);
 
 
     private final ReviewRepository rewRepo;
+
     @Autowired
     public ReviewServiceImpl(ReviewRepository rewRepo) {
         this.rewRepo = rewRepo;
@@ -36,9 +37,9 @@ public class ReviewServiceImpl implements ReviewService{
 
     @Override
     public void delete(Review review) {
-        if (rewRepo.existsByManuscriptAndReviewer(review.getManuscript(), review.getReviewer())){
+        if (rewRepo.existsByManuscriptAndReviewer(review.getManuscript(), review.getReviewer())) {
             rewRepo.delete(review);
-        }else {
+        } else {
             log.error("trying to delete empty review.");
             throw new IllegalArgumentException("could not delete review with manuscript id: " +
                     review.getManuscript().getManuscriptId() + " and review id: " +

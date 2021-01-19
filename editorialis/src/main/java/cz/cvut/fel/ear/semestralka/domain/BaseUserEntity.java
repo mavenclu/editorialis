@@ -32,12 +32,12 @@ public abstract class BaseUserEntity {
     @JsonIgnore
     @Pattern(regexp = "(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")
     private String password;
-    @Pattern(regexp = "[a-z ,.'-]+$")
+    @Pattern(regexp = "^[a-zA-Z]{2,}(?: [a-zA-Z]+){0,2}$")
     @NotNull
     @Size(min = 2, max = 20, message = "Name must contain at least 2 letters and at most 20 letters")
     private String firstName;
     @NotNull
-    @Pattern(regexp = "[a-z ,.'-]+$")
+    @Pattern(regexp = "^[a-zA-Z]{2,}(?: [a-zA-Z]+){0,2}$")
     @Size(min = 2, max = 20, message = "Last name must contain at least 2 letters and at most 20 letters")
     private String lastName;
     private final String name = firstName + " " + lastName;
@@ -59,10 +59,9 @@ public abstract class BaseUserEntity {
         this.password = new BCryptPasswordEncoder().encode(password);
     }
 
-    public String getUsername(){
+    public String getUsername() {
         return getEmail();
     }
-
 
 
 }

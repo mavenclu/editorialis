@@ -8,12 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthorServiceImpl implements AuthorService{
+public class AuthorServiceImpl implements AuthorService {
 
     private final Logger log = LoggerFactory.getLogger(AuthorServiceImpl.class);
 
 
     private final AuthorRepository authorRepo;
+
     @Autowired
     public AuthorServiceImpl(AuthorRepository authorRepo) {
         this.authorRepo = authorRepo;
@@ -41,9 +42,9 @@ public class AuthorServiceImpl implements AuthorService{
 
     @Override
     public void delete(Author author) {
-        if (authorRepo.findById(author.getUserId()).isPresent()){
+        if (authorRepo.findById(author.getUserId()).isPresent()) {
             authorRepo.delete(author);
-        }else {
+        } else {
             log.error("Trying to delete empty author");
             throw new IllegalArgumentException("Could not delete author");
         }

@@ -1,6 +1,5 @@
 package cz.cvut.fel.ear.semestralka.service;
 
-import cz.cvut.fel.ear.semestralka.dao.ReviewRepository;
 import cz.cvut.fel.ear.semestralka.dao.ReviewerRepository;
 import cz.cvut.fel.ear.semestralka.domain.Reviewer;
 import org.slf4j.Logger;
@@ -9,10 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ReviewerServiceImpl implements ReviewerService{
+public class ReviewerServiceImpl implements ReviewerService {
     private final Logger log = LoggerFactory.getLogger(ReviewerServiceImpl.class);
 
     private final ReviewerRepository reviewerRepo;
+
     @Autowired
     public ReviewerServiceImpl(ReviewerRepository reviewRepoer) {
         this.reviewerRepo = reviewRepoer;
@@ -41,9 +41,9 @@ public class ReviewerServiceImpl implements ReviewerService{
 
     @Override
     public void delete(Reviewer reviewer) {
-        if (reviewerRepo.findById(reviewer.getUserId()).isPresent()){
+        if (reviewerRepo.findById(reviewer.getUserId()).isPresent()) {
             reviewerRepo.delete(reviewer);
-        }else {
+        } else {
             log.error("trying to delete empty reviewer");
             throw new IllegalArgumentException("Could not delete reviewer with id: " + reviewer.getUserId());
         }

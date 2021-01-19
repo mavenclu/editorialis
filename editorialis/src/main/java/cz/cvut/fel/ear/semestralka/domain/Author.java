@@ -1,9 +1,9 @@
 package cz.cvut.fel.ear.semestralka.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
@@ -17,7 +17,8 @@ import java.util.List;
 @Table(name = "authors")
 public class Author extends BaseUserEntity {
 
-    @ManyToMany(mappedBy = "authors", cascade = CascadeType.PERSIST)
+    @JsonIgnore
+    @ManyToMany(mappedBy = "authors")
     private List<Manuscript> manuscripts;
 
     protected Author() {

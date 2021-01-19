@@ -12,7 +12,8 @@ public class ReviewId implements Serializable {
     private Long manuscript;
     private Long reviewer;
 
-    public ReviewId(){}
+    public ReviewId() {
+    }
 
 
     public ReviewId(Long manuscript_id, Long reviewer_id) {

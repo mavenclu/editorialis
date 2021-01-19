@@ -1,5 +1,6 @@
 package cz.cvut.fel.ear.semestralka.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,13 +18,15 @@ import java.util.List;
 @Table(name = "reviewers")
 public class Reviewer extends BaseUserEntity {
 
+
     @OneToMany(mappedBy = "reviewer", cascade = CascadeType.PERSIST)
-    private List<Review> reviews ;
+    private List<Review> reviews;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "reviewer", cascade = CascadeType.PERSIST)
     private List<Manuscript> reviewedManuscripts;
 
@@ -43,7 +46,7 @@ public class Reviewer extends BaseUserEntity {
         reviews.add(review);
     }
 
-    public static class ReviewerBuilder{
+    public static class ReviewerBuilder {
         private List<Review> reviews = new ArrayList<>();
         private Category category;
         private boolean onReview;
@@ -51,41 +54,41 @@ public class Reviewer extends BaseUserEntity {
         private String firstName;
         private String lastName;
 
-        public ReviewerBuilder(){
+        public ReviewerBuilder() {
         }
 
-        public ReviewerBuilder withReviews(List<Review> reviews){
+        public ReviewerBuilder withReviews(List<Review> reviews) {
             this.reviews = reviews;
             return this;
         }
 
-        public ReviewerBuilder withCategory(Category category){
+        public ReviewerBuilder withCategory(Category category) {
             this.category = category;
             return this;
         }
 
 
-        public ReviewerBuilder withEmail(@Email String email){
+        public ReviewerBuilder withEmail(@Email String email) {
             this.email = email;
             return this;
         }
 
-        public ReviewerBuilder withFirstName(@NotNull String name){
+        public ReviewerBuilder withFirstName(@NotNull String name) {
             this.firstName = name;
             return this;
         }
 
-        public ReviewerBuilder withLastName(@NotNull String name){
+        public ReviewerBuilder withLastName(@NotNull String name) {
             this.lastName = name;
             return this;
         }
 
-        public ReviewerBuilder isOnReview(boolean val){
+        public ReviewerBuilder isOnReview(boolean val) {
             this.onReview = val;
             return this;
         }
 
-        public Reviewer build(){
+        public Reviewer build() {
             Reviewer rev = new Reviewer();
             rev.setReviews(reviews);
             rev.setCategory(category);

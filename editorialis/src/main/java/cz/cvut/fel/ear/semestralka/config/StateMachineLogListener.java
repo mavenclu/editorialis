@@ -1,17 +1,10 @@
 package cz.cvut.fel.ear.semestralka.config;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.statemachine.StateContext;
-import org.springframework.statemachine.StateContext.Stage;
 import org.springframework.statemachine.listener.StateMachineListener;
 import org.springframework.statemachine.listener.StateMachineListenerAdapter;
+import org.springframework.statemachine.state.State;
 
 import java.util.logging.Logger;
-//import org.slf4j.Logger;
-import org.springframework.statemachine.state.State;
 
 
 public class StateMachineLogListener extends StateMachineListenerAdapter {

@@ -1,15 +1,11 @@
 package cz.cvut.fel.ear.semestralka.domain;
 
-import org.hibernate.annotations.Fetch;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 
 @Entity
@@ -22,10 +18,10 @@ public class Manuscript {
     @Column(unique = true)
     @NotNull
     @Size(min = 3, max = 100)
-    @Pattern(regexp = "[A-Za-z0-9 _.,!\"'/$]*", message = "Title should contain only letetrs, numbers and punctuation.")
+//    @Pattern(regexp = "[A-Za-z0-9 _.,!\"'/$]*", message = "Title should contain only letetrs, numbers and punctuation.")
     private String title;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany
     @JoinTable(
             name = "manuscript_authors",
             joinColumns = @JoinColumn(name = "manuscript_id"),
@@ -66,7 +62,7 @@ public class Manuscript {
     @Column
     private boolean reviewed;
 
-    public Manuscript (){
+    public Manuscript() {
         this.closed = false;
         this.reviewed = false;
         this.reviews = new ArrayList<>();
@@ -84,9 +80,11 @@ public class Manuscript {
         this.eventsSequence = new EventsSequence();
     }
 
-    public  Manuscript(String tilte, List<Author> author) {
+
+    public Manuscript(String title, Category category) {
         this.title = title;
-        this.authors = new ArrayList<>(authors);
+        this.category = category;
+        this.authors = new ArrayList<>();
         this.closed = false;
         this.reviewed = false;
         this.reviews = new ArrayList<>();
@@ -97,24 +95,30 @@ public class Manuscript {
         return manuscriptStatus;
     }
 
+    public void setManuscriptStatus(ManuscriptState manuscriptStatus) {
+        this.manuscriptStatus = manuscriptStatus;
+    }
+
     public EventsSequence getEventsSequence() {
-        if(eventsSequence == null)
+        if (eventsSequence == null)
             return null;
-            EventsSequence copy = new EventsSequence();
-            copy.setWhenAccepted(eventsSequence.getWhenAccepted());
-            copy.setWhenAssignedToEditor(eventsSequence.getWhenAssignedToEditor());
-            copy.setWhenAssignedToReviewer(eventsSequence.getWhenAssignedToReviewer());
-            copy.setWhenCompletedReviews(eventsSequence.getWhenCompletedReviews());
-            copy.setWhenUploaded(eventsSequence.getWhenUploaded());
-            copy.setWhenRejected(eventsSequence.getWhenRejected());
+        EventsSequence copy = new EventsSequence();
+        copy.setWhenAccepted(eventsSequence.getWhenAccepted());
+        copy.setWhenAssignedToEditor(eventsSequence.getWhenAssignedToEditor());
+        copy.setWhenAssignedToReviewer(eventsSequence.getWhenAssignedToReviewer());
+        copy.setWhenCompletedReviews(eventsSequence.getWhenCompletedReviews());
+        copy.setWhenUploaded(eventsSequence.getWhenUploaded());
+        copy.setWhenRejected(eventsSequence.getWhenRejected());
         return copy;
     }
 
-    public void addReview(Review review) {
-        reviews.add(review);
-        review.setManuscript(this);
+    public void setEventsSequence(EventsSequence eventsSequence) {
+        this.eventsSequence = eventsSequence;
     }
 
+    public void addReview(Review review) {
+        this.reviews.add(review);
+    }
 
     public Long getManuscriptId() {
         return manuscriptId;
@@ -124,7 +128,7 @@ public class Manuscript {
         return title;
     }
 
-    public void setTitle(@NotNull @Size(min=3) String title) {
+    public void setTitle(@NotNull @Size(min = 3) String title) {
         this.title = title;
     }
 
@@ -160,20 +164,12 @@ public class Manuscript {
         this.category = category;
     }
 
-    public void setManuscriptStatus(ManuscriptState manuscriptStatus) {
-        this.manuscriptStatus = manuscriptStatus;
-    }
-
     public Reviewer getReviewer() {
         return reviewer;
     }
 
     public void setReviewer(Reviewer reviewer) {
         this.reviewer = reviewer;
-    }
-
-    public void setEventsSequence(EventsSequence eventsSequence) {
-        this.eventsSequence = eventsSequence;
     }
 
     public boolean isClosed() {
@@ -193,61 +189,61 @@ public class Manuscript {
     }
 
 
-
-    public static class ManuscriptBuilder{
+    public static class ManuscriptBuilder {
         private String title;
-        private List<Author> authors;
+        private List<Author> authors = new ArrayList<>();
         private Editor editor;
-        private List<Review> reviews;
+        private List<Review> reviews = new ArrayList<>();
         private Category category;
         private ManuscriptState manuscriptStatus;
         private boolean closed;
         private EventsSequence eventsSequence;
 
-        public ManuscriptBuilder(){}
+        public ManuscriptBuilder() {
+        }
 
-        public ManuscriptBuilder withTitle(String title){
+        public ManuscriptBuilder withTitle(String title) {
             this.title = title;
             return this;
         }
 
 
-        public ManuscriptBuilder withAuthors(List<Author> authors){
+        public ManuscriptBuilder withAuthors(List<Author> authors) {
             this.authors = new ArrayList<>(authors);
             return this;
         }
 
-        public ManuscriptBuilder withEditor(Editor ed){
+        public ManuscriptBuilder withEditor(Editor ed) {
             this.editor = ed;
             return this;
         }
 
-        public ManuscriptBuilder withReviews(List<Review> rev){
+        public ManuscriptBuilder withReviews(List<Review> rev) {
             this.reviews = new ArrayList<>(rev);
             return this;
         }
 
-        public ManuscriptBuilder withCategory(Category cat){
+        public ManuscriptBuilder withCategory(Category cat) {
             this.category = cat;
             return this;
         }
 
-        public ManuscriptBuilder withManuscriptStatus(ManuscriptState status){
+        public ManuscriptBuilder withManuscriptStatus(ManuscriptState status) {
             this.manuscriptStatus = status;
             return this;
         }
 
-        public ManuscriptBuilder isClosed(boolean bool){
+        public ManuscriptBuilder isClosed(boolean bool) {
             this.closed = bool;
             return this;
         }
 
-        public ManuscriptBuilder withEventsSequence(EventsSequence sequence){
+        public ManuscriptBuilder withEventsSequence(EventsSequence sequence) {
             this.eventsSequence = sequence;
             return this;
         }
 
-        public Manuscript build(){
+        public Manuscript build() {
             Manuscript man = new Manuscript();
             man.setTitle(title);
             man.setAuthors(authors);

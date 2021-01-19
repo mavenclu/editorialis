@@ -13,8 +13,6 @@ import org.springframework.statemachine.support.DefaultStateMachineContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-
 
 @RequiredArgsConstructor
 @Service
@@ -23,12 +21,11 @@ public class ManuscriptStateMachineServiceImpl implements ManuscriptStateMachine
     private final ManuscriptStateChangeInterceptor manuscriptStateChangeInterceptor;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    private StateMachineFactory<ManuscriptState, ManuscriptEvent> factory;
-    private EditorService edService;
     private final ManuscriptService manService;
     private final ReviewService reviewServ;
     private final ReviewerService reviewerService;
+    private StateMachineFactory<ManuscriptState, ManuscriptEvent> factory;
+    private EditorService edService;
 
     @Autowired
     public ManuscriptStateMachineServiceImpl(ManuscriptStateChangeInterceptor manuscriptStateChangeInterceptor,

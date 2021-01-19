@@ -1,10 +1,8 @@
 package cz.cvut.fel.ear.semestralka.service;
 
-import cz.cvut.fel.ear.semestralka.dao.ManuscriptRepository;
 import cz.cvut.fel.ear.semestralka.domain.Manuscript;
 import cz.cvut.fel.ear.semestralka.domain.ManuscriptEvent;
 import cz.cvut.fel.ear.semestralka.domain.ManuscriptState;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.statemachine.StateMachine;

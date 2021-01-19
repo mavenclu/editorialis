@@ -1,6 +1,5 @@
 package cz.cvut.fel.ear.semestralka.service;
 
-import cz.cvut.fel.ear.semestralka.dao.CategoryRepository;
 import cz.cvut.fel.ear.semestralka.dao.EditorRepository;
 import cz.cvut.fel.ear.semestralka.dao.ManuscriptRepository;
 import cz.cvut.fel.ear.semestralka.domain.*;
@@ -10,8 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
-public class ManuscriptServiceImpl implements ManuscriptService{
+public class ManuscriptServiceImpl implements ManuscriptService {
     private final Logger log = LoggerFactory.getLogger(ManuscriptServiceImpl.class);
 
 
@@ -26,9 +26,11 @@ public class ManuscriptServiceImpl implements ManuscriptService{
 
     @Override
     public Manuscript findById(long id) {
-       return manRepo.findById(id).orElseThrow(
-               () -> {throw new IllegalArgumentException("Could not find manuscript wiht id: " + id);}
-       );
+        return manRepo.findById(id).orElseThrow(
+                () -> {
+                    throw new IllegalArgumentException("Could not find manuscript wiht id: " + id);
+                }
+        );
     }
 
     @Override
@@ -43,22 +45,22 @@ public class ManuscriptServiceImpl implements ManuscriptService{
 
     @Override
     public void delete(Manuscript manuscript) {
-        if (manRepo.findById(manuscript.getManuscriptId()).isPresent()){
+        if (manRepo.findById(manuscript.getManuscriptId()).isPresent()) {
             manRepo.delete(manuscript);
-        }else{
+        } else {
             throw new IllegalArgumentException("Could not find manuscript");
         }
     }
 
     @Override
     public void deleteById(long id) {
-    Manuscript manuscript = findById(id);
-    manRepo.delete(manuscript);
+        Manuscript manuscript = findById(id);
+        manRepo.delete(manuscript);
     }
 
     /**
-     *
      * gets
+     *
      * @param manuscript category and
      * @return Editor responsible for that category
      */
@@ -66,7 +68,9 @@ public class ManuscriptServiceImpl implements ManuscriptService{
     public Editor getManuscriptEditor(Manuscript manuscript) {
         if (manRepo.findById(manuscript.getManuscriptId()).isPresent()) {
             return editorRepo.findEditorByCategory_CategoryId(manuscript.getCategory().getCategoryId()).orElseThrow(
-                    () -> { throw new IllegalArgumentException("Could not get an editor for a manuscirpt with an ID: " + manuscript.getManuscriptId() );}
+                    () -> {
+                        throw new IllegalArgumentException("Could not get an editor for a manuscirpt with an ID: " + manuscript.getManuscriptId());
+                    }
             );
         } else {
             log.error("Trying to get editor of the empty manuscript.");

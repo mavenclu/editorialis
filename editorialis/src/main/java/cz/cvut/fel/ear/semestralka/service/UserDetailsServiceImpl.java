@@ -15,18 +15,21 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final Logger log = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
 
     private final FindUserByUserNameService findUserService;
+
     @Autowired
     public UserDetailsServiceImpl(FindUserByUserNameService findUserService) {
         this.findUserService = findUserService;
     }
 
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         BaseUserEntity user = findUserService.findByEmail(username);
-        log.info("loaded user with username: " + user.getEmail() + " and password: " + user.getPassword()
-            + " and roel: " + user.getUsersRole());
+        log.info("loaded user with username: " + user.getEmail()
+//                + " and password: " + user.getPassword()
+                + " and role: " + user.getUsersRole());
 
-        if (user == null){
+        if (user == null) {
             log.error("user is null");
             throw new UsernameNotFoundException("could not find user with username: " + username);
         }

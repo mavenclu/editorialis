@@ -8,7 +8,7 @@ insert into categories (name) values ('Neuroscience')
 -- insert into categories (name) values ('Pharmacology')
 -- insert into categories (name) values ('Biotechnology')
 
-insert into authors (first_Name,last_Name, email) values ('John', 'Doe', 'john.doe@example.com')
+insert into authors (first_Name,last_Name, email, password, users_role) values ('John', 'Doe', 'john.doe@example.com', '$2y$10$5wIl0XbxfPl8aZsysi1jBOcrmaCdaGDRf4iGl.dx1Uyd26qXdJQoG', 'AUTHOR')
 insert into authors (first_Name,last_Name, email) values ('Audrey', 'Smith', 'au.smith@example.com')
 insert into authors (first_Name,last_Name, email) values ('Thomas', 'Klein', 'thom.klein@example.com')
 insert into authors (first_Name,last_Name, email) values ('Jan', 'Novak', 'jan.novak@example.com')
@@ -19,7 +19,7 @@ insert into authors (first_Name,last_Name, email) values ('Edward', 'Sullivan', 
 insert into authors (first_Name,last_Name, email) values ('Michal', 'Muller', 'michal.muller1@example.com')
 insert into authors (first_Name,last_Name, email) values ('Klara', 'Novotna', 'knovotna@example.com')
 
-insert into reviewers (first_Name, last_Name, email, category_id, on_Review) values ('Martha', 'Clokie', 'ma.clokie@example.com', 1, true)
+insert into reviewers (first_Name, last_Name, email, category_id, on_Review) values ('Martha', 'Clokie', 'ma.clokie@example.com', 1, false)
 insert into reviewers (first_Name, last_Name, email, category_id, on_Review) values ('Sarah', 'DeWeerdt', 'sdeweerdt@example.com', 1, true)
 insert into reviewers (first_Name, last_Name, email, category_id, on_Review) values ('Gianpaolo', 'Carosi', 'gian.carosi@example.com', 1, false)
 insert into reviewers (first_Name, last_Name, email, category_id, on_Review) values ('Johannes', 'Overvelde', 'john.overvelde@example.com', 1, false)
@@ -39,9 +39,9 @@ insert into reviewers (first_Name, last_Name, email, category_id, on_Review) val
 
 
 
-insert into editors (first_Name, last_Name, email, category_id, password, users_role) values ('Zachary', 'Feinstein', 'editor.editorialis@example.com', 1, '{bcrypt}$2y$10$U6g6Ymv9sIfa.vWFeu/wFus9cL1ZsN.z3N0rm4ziqy2EwjMEbW4iG', 'EDITOR')
-insert into editors (first_Name, last_Name, email, category_id) values ('Leslie', 'Greengard', 'leslie.greengard@example.com', 2)
-insert into editors (first_Name, last_Name, email, category_id) values ('Mark', 'Girolami', 'mark.girolami@example.com', 1)
+insert into editors (first_Name, last_Name, email, category_id, password, users_role) values ('Zachary', 'Feinstein', 'editor.editorialis@example.com', 1, '$2y$10$5wIl0XbxfPl8aZsysi1jBOcrmaCdaGDRf4iGl.dx1Uyd26qXdJQoG', 'EDITOR')
+insert into editors (first_Name, last_Name, email, category_id, password, users_role) values ('Leslie', 'Greengard', 'leslie.greengard@example.com', 2, '$2y$10$ZPfEGt6t2NqeKCfrwy6rzuBqOTTxy9M7DHFGqZCO7vQDzw.AHqili', 'EDITOR')
+insert into editors (first_Name, last_Name, email, category_id, password, users_role) values ('Mark', 'Girolami', 'mark.girolami@example.com', 1, '$2y$10$5wIl0XbxfPl8aZsysi1jBOcrmaCdaGDRf4iGl.dx1Uyd26qXdJQoG', 'DIRECTOR')
 -- insert into editors (first_Name, last_Name, email, category_id) values ('Johannes', 'Wiesel', 'john.wiesel@example.com', 4)
 -- insert into editors (first_Name, last_Name, email, category_id) values ('Gábor', 'Pataki', 'gpataki@example.com', 5)
 -- insert into editors (first_Name, last_Name, email, category_id) values ('Mark', 'Wilson', 'mark.wilson@example.com', 6)
@@ -49,7 +49,7 @@ insert into editors (first_Name, last_Name, email, category_id) values ('Mark', 
 -- insert into editors (first_Name, last_Name, email, category_id) values ('Venkata', 'Koppula', 'venkoppula@example.com', 8)
 -- insert into editors (first_Name, last_Name, email, category_id) values ('Brent', 'Waters', 'brntwaters@example.com', 9)
 
-insert into manuscripts (title, category_id, when_uploaded, closed, manuscript_status, reviewed, reviewer_id, editor_id, when_assigned_to_editor) values ('The metabolic face of migraine — from pathophysiology to treatment.', 1,  {ts '2019-08-17 18:47:52'}, false, 'PENDING', false, 1, 1, {ts '2019-08-17 18:47:52'})
+insert into manuscripts (title, category_id, when_uploaded, closed, manuscript_status, reviewed, editor_id, when_assigned_to_editor) values ('The metabolic face of migraine — from pathophysiology to treatment.', 1,  {ts '2019-08-17 18:47:52'}, false, 'PENDING', false, 1, {ts '2019-08-17 18:47:52'})
 insert into manuscripts (title, category_id, when_uploaded, closed, manuscript_status, reviewed, reviewer_id, editor_id, when_assigned_to_editor, when_assigned_to_reviewer) values ('Finding Determinant Forms of Certain Hybrid Sheffer Sequences.', 1,    {ts '2019-04-17 18:47:52'}, false, 'PEER_REVIEW', false, 2, 1, {ts '2019-04-17 18:47:52'}, {ts '2019-04-19 8:07:52'})
 insert into manuscripts (title, category_id, when_uploaded, manuscript_status, closed, reviewed, reviewer_id, editor_id, when_assigned_to_editor, when_assigned_to_reviewer, when_completed_reviews) values ('Modelling roasting coffee beans using mathematics: now full-bodied and robust.', 1, {ts '2019-05-21 14:29:37'}, 'PRINCIPAL_REVIEW', true, false, 3, 1, {ts '2019-05-21 14:29:37'}, {ts '2019-05-22 10:29:37'}, {ts '2019-06-03 14:29:37'})
 insert into manuscripts (title, category_id, when_uploaded, manuscript_status, closed, reviewed, reviewer_id, editor_id, when_assigned_to_editor, when_assigned_to_reviewer, when_completed_reviews, when_accepted) values ('Diagnosis and management of Guillain–Barré syndrome in ten steps.', 1, {ts '2019-07-21 10:39:37'}, 'ACCEPTED', true, true, 4, 1, {ts '2019-07-21 10:39:37'}, {ts '2019-07-21 17:09:31'}, {ts '2019-08-09 11:49:27'}, {ts '2019-08-11 14:19:39'})

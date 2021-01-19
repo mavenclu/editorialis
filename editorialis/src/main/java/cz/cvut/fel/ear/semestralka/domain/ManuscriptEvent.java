@@ -1,7 +1,7 @@
 package cz.cvut.fel.ear.semestralka.domain;
 
 public enum ManuscriptEvent {
-//    manuscriptUploaded,
+    //    manuscriptUploaded,
     manuscriptAssignedToEditor,
     manuscriptAssignedToReviewer,
     completedReview,
