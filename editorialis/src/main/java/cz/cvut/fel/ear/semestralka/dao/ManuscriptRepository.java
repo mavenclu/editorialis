@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 //@CrossOrigin(origins="*")
-//@PreAuthorize("hasAnyRole('ADMIN', 'DIRECTOR', 'EDITOR', 'REVIEWER')")
+@PreAuthorize("hasAnyRole('ADMIN', 'DIRECTOR', 'EDITOR', 'REVIEWER')")
 @RepositoryRestResource
 public interface ManuscriptRepository extends CrudRepository<Manuscript, Long> {
 

@@ -1,6 +1,5 @@
 package cz.cvut.fel.ear.semestralka.domain;
 
-import cz.cvut.fel.ear.semestralka.dao.*;
 import cz.cvut.fel.ear.semestralka.service.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -74,6 +73,7 @@ class ManuscriptTest {
 
 
     }
+
     @Transactional
     @Test
     void manFromReviewSideShouldMakeManAwareOfTheRelationTest() {

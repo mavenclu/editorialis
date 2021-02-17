@@ -32,7 +32,7 @@ public class Manuscript {
     @JoinColumn(name = "editor_id")
     private Editor editor;
 
-    @OneToMany(mappedBy = "manuscript", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "manuscript", cascade = CascadeType.ALL)
     private List<Review> reviews;
 
     @ManyToOne

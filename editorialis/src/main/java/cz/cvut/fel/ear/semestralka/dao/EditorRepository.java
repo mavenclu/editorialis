@@ -47,4 +47,5 @@ public interface EditorRepository extends CrudRepository<Editor, Long> {
 
     @PreAuthorize("isAuthenticated()")
     Optional<Editor> findByEmail(@Param("email") String email);
+
 }

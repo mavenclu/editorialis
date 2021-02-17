@@ -3,7 +3,6 @@ package cz.cvut.fel.ear.semestralka.service;
 import cz.cvut.fel.ear.semestralka.domain.*;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +31,7 @@ class ManuscriptStateMachineServiceImplTest {
     private Review review;
 
     @Autowired
-    ManuscriptStateMachineServiceImplTest(ManuscriptStateMachineService machineServ, EditorService editorServ, CategoryService catServ, AuthorService authorServ, ReviewerService reviewerServ, ManuscriptService manServ, ReviewService reviewServ){
+    ManuscriptStateMachineServiceImplTest(ManuscriptStateMachineService machineServ, EditorService editorServ, CategoryService catServ, AuthorService authorServ, ReviewerService reviewerServ, ManuscriptService manServ, ReviewService reviewServ) {
         this.machineServ = machineServ;
         this.editorServ = editorServ;
         this.catServ = catServ;
@@ -44,7 +43,7 @@ class ManuscriptStateMachineServiceImplTest {
 
     @Transactional
     @BeforeEach
-    void setUp(){
+    void setUp() {
         category = new Category("Test Category");
         author = new Author.AuthorBuilder()
                 .withEmail("author@test.com")
@@ -52,7 +51,7 @@ class ManuscriptStateMachineServiceImplTest {
                 .withLastName("Novotny")
                 .build();
 
-        editor  = new Editor.EditorBuilder()
+        editor = new Editor.EditorBuilder()
                 .withFirstName("Jan")
                 .withLastName("Novak")
                 .withEmail("editor@test.com")
@@ -80,9 +79,10 @@ class ManuscriptStateMachineServiceImplTest {
         authorServ.save(author);
 //        manServ.save(manuscript);
     }
+
     @Transactional
     @AfterEach
-    void tearDown(){
+    void tearDown() {
 //        editor.setEmail(null);
 //        reviewer.setEmail(null);
 //        sender.setEmail(null);
@@ -118,6 +118,7 @@ class ManuscriptStateMachineServiceImplTest {
                 .isEqualTo(ManuscriptState.PENDING);
 
     }
+
     @Transactional
     @Test
     void assignManuscriptToEditorViaObjects() throws Exception {
@@ -148,15 +149,16 @@ class ManuscriptStateMachineServiceImplTest {
 
 
     }
+
     @Transactional
     @Test
-    void rejectManuscriptShouldChangeStateToRejectedAndClosedToTrueTest() throws Exception{
+    void rejectManuscriptShouldChangeStateToRejectedAndClosedToTrueTest() throws Exception {
         Manuscript savedMan = machineServ.newManuscript(manuscript);
         StateMachine<ManuscriptState, ManuscriptEvent> assignedMachine = machineServ.assignManuscriptToEditor(savedMan.getManuscriptId(), editor.getUserId());
         Manuscript assignedMan = manServ.findById(savedMan.getManuscriptId());
         StateMachine<ManuscriptState, ManuscriptEvent> rejectedMachine = machineServ.rejectManuscript(assignedMan.getManuscriptId());
         Assertions.assertThat(rejectedMachine.getState().getId())
-               .as("check machine state")
+                .as("check machine state")
                 .isEqualTo(ManuscriptState.REJECTED);
         Assertions.assertThat(savedMan.getManuscriptStatus())
                 .as("check manuscript state")
@@ -215,7 +217,6 @@ class ManuscriptStateMachineServiceImplTest {
                 .as("check manuscript state")
                 .isEqualTo(ManuscriptState.ACCEPTED);
     }
-
 
 
 }

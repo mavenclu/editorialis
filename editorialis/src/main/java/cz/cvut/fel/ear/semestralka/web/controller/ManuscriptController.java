@@ -15,6 +15,7 @@ import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,6 +49,7 @@ public class ManuscriptController {
     }
 
     @Transactional
+    @PreAuthorize("hasAnyRole('DIRECTOR', 'EDITOR')")
     @PatchMapping("/{id}/accept")
     @ResponseBody
     ResponseEntity<Manuscript> accept(@PathVariable Long id) {
@@ -75,6 +77,7 @@ public class ManuscriptController {
     ;
 
     @Transactional
+    @PreAuthorize("hasAnyRole('EDITOR', 'DIRECTOR')")
     @PatchMapping("/{id}/reject")
     @ResponseBody
     ResponseEntity<Manuscript> reject(@PathVariable Long id) {
@@ -111,6 +114,7 @@ public class ManuscriptController {
     }
 
     @Transactional
+    @PreAuthorize("hasAnyRole('EDITOR', 'DIRECTOR')")
     @PatchMapping("/{id}/assign-to-reviewer")
     @ResponseBody
     ResponseEntity<Manuscript> assignToReviewer(@PathVariable Long id, @RequestParam(name = "reviewerId", required = true) Long reviewerId) {
