@@ -1,102 +1,170 @@
-# Checkpoints for the semestrial project  
+# Contents
+
+<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+
+- [Contents](#contents)
+- [Journal Manuscript Preparation System](#journal-manuscript-preparation-system)
+	- [Status](#status)
+	- [Basic functionality of the System](#basic-functionality-of-the-system)
+	- [Users of the System](#users-of-the-system)
+	- [Implementation ideas](#implementation-ideas)
+- [Software Requirements Specification](#software-requirements-specification)
+	- [Introduction](#introduction)
+		- [Purpose](#purpose)
+		- [Intended Audience](#intended-audience)
+	- [Overall description](#overall-description)
+		- [Product perspective](#product-perspective)
+		- [Class diagram](#class-diagram)
+		- [User classes and characteristics](#user-classes-and-characteristics)
+	- [What this app is not about](#what-this-app-is-not-about)
+	- [Typical manuscript publication process](#typical-manuscript-publication-process)
+
+<!-- /TOC -->
+----
+# Journal Manuscript Preparation System  
+
+A journal editorial board manages submission/publication process of journal articles.
+Its members ask experts to read and review papers.
+Each reviewer needs to be informed (e.g. by email) about a new paper assigned to him/her to review.
+He/she downloads the paper, prepares a review and writes notes into a single large text area or uploads a self-prepared PDF file.
+Editorial board, as well as authors want to know, which articles are already reviewed and which are under review.
+
+  ___
+## Status
+Under development.
+
+## Basic functionality of the System
+
+  * Store articles in the database
+  * Enable to upload new article to database
+  * Assign an article to an expert to review
+  * Inform an expert by email about a new article being assigned to him/her
+  * Enables to download an article
+  * Enables to upload a review
+  * Inform editorial board/authors about a new uploaded review
+  * View list of articles, reviews based on roles
+  * View list of articles based on state (new, in revision, reviewed, accepted, rejected)
+  * Archive papers after 6 months from upload
+
+## Users of the System
+* Editors
+* Authors
+* Reviewers
+* Admin
+
+## Implementation ideas
+  - [x] Gradle
+  - [x] Spring, SpringBoot
+  - [x] JPA2, Hibernate with PostgreSQL
+  - [x] Spring Security - authentication, authorization
+  - [ ] Observer design pattern
+  - [x] REST
+  - [x] Spring email
+  - [x] Spring statemachine
+
+
+# Software Requirements Specification
 
 ---
 
+## Introduction
+
+### Purpose
+
+The purpose of this document is to build an online system, web app, to manage submitted manuscripts.
+
+### Intended Audience
+
+This project is useful for the manuscript publication houses. Users of the system are editors, authors, reviewers and admins.
+
+## Overall description
+
+### Product perspective
+
+A database stores the following information.
+
+**User details:**
+
+Name, email, phone number, password, town and country, roles, publication category, avatar or photo, status (reviewer).
+
+**Manuscript details:**
+
+Title, authors, category, submission time, assignment time, status, tags, pdf file, doc file.
+
+**Review details:**
+
+Author, related manuscript, time assigned, submission time, reviewers suggestion, pdf file.
+
+### Class diagram
+
+![class diagram](classDiagram.png)
+
+DB tables
+
+![db tables](/img/dbTables.png)
+
+### User classes and characteristics
+
+**Admin**
+
+Users with role admin would be able to:
+
+- add or remove categories
+- assign roles to users
+- activate or deactivate users
+
+**Editors:**
+
+Users with role editor would be able to:
+
+- view submitted articles within their scope
+- view manuscripts status, manuscripts&#39; reviews
+- reject manuscript if requirements are not met on one-click (aims and scope of the journal, manuscript type, length and format)
+- assign articles for review, will have auto pre-populated list of available reviewers
+- accept or reject articles based on reviews
+- ask for third opinion
+
+**Reviewers:**
+
+Users with role reviewer would be able to:
+
+- view manuscripts assigned to them
+- submit reviews
+- view previously submitted reviews
+
+**Authors:**
+
+Users with role author would be able to:
+
+- submit new manuscript
+- view previously submitted manuscripts and their status.
+
+**Unregistered users:**
+
+New users would be able to create new account. Author's role will be automatically assigned.
+
+## What this app is not about
+
+The system does not provide access to manuscripts to subscribers.
+
+Once the manuscript was accepted for publication, the file is no longer accessible. Only details related to editorial work (information about authors, title, dates, reviews, status) are available.
+
+## Typical manuscript publication process    
 
 
-## Výsledné SRS však musí nutně obsahovat
+![manuscript publication process](manuscriptFlow.JPG)
 
-- [x] Pro jaké uživatele (druhy uživatelů) bude systém určen (je nutné mít alespoň 2 funkčně různé uživatele)
-- [x] Jaké bude plnit funkce (k čemu bude jednotlivým druhům uživatelů sloužit)
-- [x] Jaká bude mít systém omezení (k čemu sloužit nebude, ačkoliv by to mohlo být očekáváno)
-- [x] Objektový model (UML class diagram)
-- [x] minimálně 5 tříd - několik vazeb 1:N a minimálně jedna vazba M:N
-- [x] část funkcionality. Zamyslete se nad tím (a v dokumentu zřetelně vyznačte) (EDITOR)
+An image above shows a real life example of manuscript publication process.
+For this project though I will simplify the process, please see image below, just enough to meet the requirements of the assignment.
 
+![simplified chart](FlowChartSimplified.png)
 
-## Zárodek aplikace obsahující:
+ Implemented will be only the functionalities of an Editor . Plus possibility to upload/download a file.
+ Editor will be able to
+ - assign manuscript for review
+ - make decision based on reviews  
 
-- [x] Projekt kompilovatelný Mavenem (Gradle)
-- [x] JPA entity odpovídající doménovému modelu
-  - [x] alespoň `@MappedSuperClass`
-- [x] DAO vrstva
-- [x] Netriviální část business logiky propojené pomocí dependency injection (tedy ne pouze čistý CRUD)
-- [x] Netriviální testy existující části aplikace. Mirne. Dost jich padlo pri premapovani domain entit. Jelikoz nove porusovaly constraints a neslo ani buildit, tak byly smazane, s tim, ze casem se dedelaji. Ale jelikoz cas neni, tak to dopadlo, jak to dopadlo. Je otestovana konfigurace a pruchod StateMachiny. Avasak to nepomohlo, protoze v Controlleru je machina nullpointer.
-
-## Výsledná fungující aplikace splňující tyto podmínky
-
-- [x] Projekt je sestavitelný Mavenem a build prochází včetně testů
-- [x] Vyhovuje SRS vytvořené v rámci checkpointu 1
-- [ ] Používá persistentní vrstvu, navrženou a schválenou v rámci checkpointu 1, obohacenou o alespoň tři z následujících technik/funkcí:
-  - [x] Ordering (uspořádání kolekce podle atributu - `@OrderBy`
-  - [x] Složené primární klíče - Review ma klic Manuscript, Reviewer
-  - [x] Kaskádní persist/merge
-- [ ] REST rozhraní využívající business logiku aplikace - mirne. Natvrdo napsane metody, pro ukazku fungovani. Plan byl, ze to obstara `State Machine` - nastavovani stavu, casu apod,  a `Observer` bude posilat emaily. `EventHandler` se stara o nastaveni zakladnich udaju u Manuscriptu pri vytvoreni.
-- [x] Použít security podporu
- - [ ] funkcionalita aplikace podle role uživatele) - zakomentovano nebo smazano, jelikoz me to pak nepusti k nicemu jinemu nez `GET`. Z casove tisne neni doreseno.
-- [x] Ověřitelnost funkcionality aplikace - sadou dotazu v  `Postman`
-
-# Ukazky
-
-## Pokusy o frontend v Reactu
-
-![Editors dashboard](/img/editorsDashboardNew.png)
-
-Dale nebylo rozvijeno. Neznam React, JWT prihlasovani se nepodarilo rozchodit. Ponechano do budoucna.
-
-## Postman    
+Manuscript status changes will be emailed to author, editor, board of directors.
 
 
-
-![All manusscripts from DB](/img/allManuscripts.png)
-
-`POST` novy Manuscript pres `HAL Browser`  
-
-![Novy Manuscript HAl Browser](/img/postNewManuscript.png)
-
-![Novy manusscript v DB](/img/newManInDB.png)
-
-`OnCreate EventHandler` posle email editorovi.  
-Zamer byl, ze dle kategorie noveho manusscriptu bude mu automaticky prirazen editor, zodpovedny za danou kategorii.
-editorovi se automaticky odesle email. A u manuscriptu se nastavi cas, kdy byl odeslan, kdy prirazen k editorovi. Ale u `POST` noveho manuscriptu mu vypadla kategorie, tak pro ukazku je tam natvrdo vybran editor.
-
-![email editorovi](/img/newManEditorEmail.png)
-
-Ukazka prirazeni reviewera k manuscriptu. Zvoleny manuscript s ID 1, ten s migrenou v nazvu. A priradim reviewera s ID 1.
-
-![prirazei manuscriptu k revieweru](/img/assignToReviewer.png)
-
-Autorovi a reviewerovi prijdou emaily o teto skutecnosti.
-Zamer byl, ze je a taky board of direcors bude notifikovat `Observer`. Z casove tisne zatim neni implementovano. V dane chvili servisa posila emaily.
-
-![Emaily o prirazeni reviewera](/img/emailsManAssignedToReviewer.png)
-
-![Email autorovi](/img/emailToAuthor.png)
-
-![Email reviewerovi](/img/emailToReviewer.png)
-
-Vyhledam reviewera s ID 1 a podivam se na jeho manuscripty
-
-![Reviewerovi manuscripty](/img/reviewerGetManuscripts.png)
-
-Ukazka zamitnuti Manuscriptu s ID 9.
-
-![zamitnuti manuscriptu](/img/rejectManuscript.png)
-
-Zde je mozne si vsimnout, ze manuscript ma stav `REJECTED`. A take manuscript s ID 1, o migrene, ma stav `PEER_REVIEW`, Na obrazku vsech manuscriptu v dashboardu z frontendu v Reactu je videt, ze mel stav PENDING.
-
-![zamitnuti v db](/img/rejectedInDB.png)
-
-![email autorovi o zamitnuti](/img/emailToAuthorRejected.png)
-
-Ukazka dotazovani se neprihlaseneho a prihlasenych uzivatelu.
-Tady je videt krasna odpoved serveru. Tato je myslim vygenerovana automaticky `Spring security`. Ne vsechny chyby, vyjimky apod jsou takto osetrene. Napr. `POST` noveho manuscriptu s nevalidnim nazvem hodi `500` chybu serveru a osklivou dlouhou odpoved o chybe. To je tim, ze chybi osetreni takovych situaci. Je treba jeste doimplementovat `@ControllerAdvice` a `ExceptionHandler`.
-
-![neprihlaseny uzivatel](/img/unauth.png)
-
-
-
-![prihlaseny uzivatel editor](/img/auth.png)  
-
-
-![prihlaseny autor](/img/auth2.png)
+Basic demo in Ukazky.
