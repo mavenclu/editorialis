@@ -97,7 +97,7 @@ Author, related manuscript, time assigned, submission time, reviewers suggestion
 
 ### Class diagram
 
-![class diagram](classDiagram.png)
+![class diagram](/img/classDiagram.png)
 
 DB tables
 
@@ -152,12 +152,12 @@ Once the manuscript was accepted for publication, the file is no longer accessib
 ## Typical manuscript publication process    
 
 
-![manuscript publication process](manuscriptFlow.JPG)
+![manuscript publication process](/img/manuscriptFlow.JPG)
 
 An image above shows a real life example of manuscript publication process.
 For this project though I will simplify the process, please see image below, just enough to meet the requirements of the assignment.
 
-![simplified chart](FlowChartSimplified.png)
+![simplified chart](/img/FlowChartSimplified.png)
 
  Implemented will be only the functionalities of an Editor . Plus possibility to upload/download a file.
  Editor will be able to
